@@ -2,6 +2,8 @@ export interface IMainWrapperProps {
     children : React.ReactNode
 }
 
+export interface IFormWrapper extends IMainWrapperProps {}
+
 export interface INavigationButtonProps {
     children : string
     path : string
@@ -25,7 +27,21 @@ export interface IRegisterUserState {
     password : string
 }
 
+export interface ISignInUserState {
+    email : string,
+    password : string
+}   
+
 export interface ICTAButtonProps {
     children : React.ReactNode
     style ?: string
 }
+
+export interface ISignUpProps {
+    setPage : (x : boolean) => void
+}
+
+export interface ISignInProps {
+    setPage : (x : boolean) => void
+}
+

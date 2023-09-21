@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { IRegisterUserState } from "../../Interface/Interface";
+import { IRegisterUserState, ISignUpProps } from "../../Interface/Interface";
 import CustomInput from "./CustomInput";
 import CTAButton from "../Button/CTAButton";
+import FormWrapper from "../../Wrappers/FormWrapper";
 
-const SignUp: React.FC = () => {
+const SignUp: React.FC <ISignUpProps> = (props) => {
+
+  const {setPage} = props;
 
   const [registerDetails, setRegisterDetails] = useState<IRegisterUserState>({
     username: "",
@@ -18,8 +21,8 @@ const SignUp: React.FC = () => {
 
   return (
     <>
-      <div className="flex h-[95vh] justify-center items-center min-[1120px]:bg-white min-[1120px]:lg:w-[50%] w-full rounded-s-3xl">
-        <form className="max-[420px]:w-[90%] max-[580px]:w-[75%] w-[23rem] h-max min-[2200px]:min-w-[400px] flex flex-col gap-4 px-2 py-8 rounded-md min-[1120px]:h-full min-[1120px]:justify-center">
+      <FormWrapper>
+        <form className="max-[420px]:w-[90%] max-[580px]:w-[75%] w-[23rem] h-max min-[2200px]:min-w-[400px] flex flex-col gap-4 px-2 py-8 rounded-md min-[1120px]:justify-center min-[1120px]:bg-none bg-white">
 
           <h2 className="text-center font-lato md:text-4xl text-2xl text-gray-800 tracking-wide">Code Playground</h2>
             
@@ -55,7 +58,8 @@ const SignUp: React.FC = () => {
 
           <CTAButton>Signup</CTAButton>
         </form>
-      </div>
+        <p className="">Already have an account? <span className="cursor-pointer text-green-600 font-medium" onClick={() => setPage(true)}>Login</span></p>
+      </FormWrapper>
     </>
   );
 };
