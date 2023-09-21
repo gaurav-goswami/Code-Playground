@@ -9,7 +9,7 @@ const NavigationButton : React.FC <INavigationButtonProps> = (props) => {
   return (
     <>
         <Link to={path}>
-            <button className={style}>
+            <button className={`${style} transition-all duration-150`}>
                 {children}
             </button>
         </Link>
