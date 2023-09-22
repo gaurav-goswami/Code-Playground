@@ -3,6 +3,7 @@ import CustomInput from './CustomInput'
 import { ISignInProps, ISignInUserState } from '../../Interface/Interface';
 import CTAButton from '../Button/CTAButton';
 import FormWrapper from '../../Wrappers/FormWrapper';
+import {BiShow} from "react-icons/bi"
 
 const Login : React.FC <ISignInProps> = (props) => {
 
@@ -23,7 +24,7 @@ const Login : React.FC <ISignInProps> = (props) => {
       <FormWrapper>
         <form className="max-[420px]:w-[90%] max-[580px]:w-[75%] w-[23rem] h-max min-[2200px]:min-w-[400px] flex flex-col gap-4 px-2 py-8 rounded-md min-[1120px]:justify-center min-[1120px]:bg-transparent bg-white">
 
-          <h2 className="text-center font-lato md:text-4xl text-2xl text-gray-800 tracking-wide">Code Playground</h2>
+          <h2 className="text-center font-lato md:text-4xl text-2xl text-gray-800 tracking-wide">Code <span className='text-blue-600'>Playground</span></h2>
           
           <CustomInput
             name="email"
@@ -43,6 +44,7 @@ const Login : React.FC <ISignInProps> = (props) => {
             required={true}
             onChange={handleChange}
             value={loginDetails.password}
+            icon={BiShow}
           />
 
           <CTAButton style='border-blue-600 hover:bg-blue-600'>Login</CTAButton>

@@ -1,8 +1,14 @@
+import { IconType } from "react-icons"
+
 export interface IMainWrapperProps {
     children : React.ReactNode
 }
 
 export interface IFormWrapper extends IMainWrapperProps {}
+
+export interface ILoginWrapper extends IMainWrapperProps {
+    page : boolean
+}
 
 export interface INavigationButtonProps {
     children : string
@@ -19,6 +25,7 @@ export interface ICustomInputProps {
     required ?: boolean
     style ?: string
     autocomplete ?: string
+    icon ?: IconType
 }
 
 export interface IRegisterUserState {
