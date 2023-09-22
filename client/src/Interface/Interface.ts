@@ -52,3 +52,7 @@ export interface ISignInProps {
     setPage : (x : boolean) => void
 }
 
+export interface ITabProps {
+    children : React.ReactNode
+    style ?: string
+}

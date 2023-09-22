@@ -16,7 +16,7 @@ const CustomInput: React.FC<ICustomInputProps> = (props) => {
 
   return (
     <>
-      <div className="relative flex bg-green-500">
+      <div className="relative flex">
         <input
           type={type}
           name={name}
