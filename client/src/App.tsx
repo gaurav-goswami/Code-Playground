@@ -1,30 +1,28 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './Pages/Home'
-import Error from './Pages/Error'
-import CreatePlayground from './Pages/CreatePlayground'
-import Auth from './Pages/Auth/Auth'
-// import Register from './Pages/Auth/Register'
-// import Login from './Pages/Auth/Login'
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Loader from "./Components/Loader/Loader";
 
-const App : React.FC = () => {
+// pages import
+const Home = lazy(() => import("./Pages/Home"));
+const Error = lazy(() => import("./Pages/Error"));
+const CreatePlayground = lazy(() => import("./Pages/CreatePlayground"));
+const Auth = lazy(() => import("./Pages/Auth/Auth"));
+
+const App: React.FC = () => {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-
-          <Route path='/' element={<Home />}/>
-          <Route path='/create-playground' element={<CreatePlayground />}/>
-          {/* <Route path='/auth/signup' element={<Register />}/>
-          <Route path='/auth/signin' element={<Login />}/> */}
-
-          <Route path='/auth' element={<Auth />}/>
-
-          <Route path='*' element={<Error />}/>
-        </Routes>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/create-playground" element={<CreatePlayground />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
