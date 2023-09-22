@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import { INavigationButtonProps } from '../Interface/Interface';
+import { INavigationButtonProps } from '../../Interface/Interface';
 
 const NavigationButton : React.FC <INavigationButtonProps> = (props) => {
 

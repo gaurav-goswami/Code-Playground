@@ -4,6 +4,7 @@ import { ISignInProps, ISignInUserState } from '../../Interface/Interface';
 import CTAButton from '../Button/CTAButton';
 import FormWrapper from '../../Wrappers/FormWrapper';
 import {BiShow} from "react-icons/bi"
+import { Link } from 'react-router-dom';
 
 const Login : React.FC <ISignInProps> = (props) => {
 
@@ -50,6 +51,10 @@ const Login : React.FC <ISignInProps> = (props) => {
           <CTAButton style='border-blue-600 hover:bg-blue-600'>Login</CTAButton>
         </form>
         <p className="">Don't have an account? <span className="cursor-pointer text-blue-600 font-medium"  onClick={() => setPage(false)}>SignUp</span></p>
+
+        <Link to="/" className="text-gray-400">
+          Back to home
+        </Link>
       </FormWrapper>
     </>
   )

@@ -1,6 +1,6 @@
 import React from "react";
 import CustomInput from "../Form/CustomInput";
-import NavigationButton from "../NavigationButton";
+import NavigationButton from "../Button/NavigationButton";
 
 const CreatePlaygroundForm: React.FC = () => {
   return (

@@ -4,6 +4,7 @@ import CustomInput from "./CustomInput";
 import CTAButton from "../Button/CTAButton";
 import FormWrapper from "../../Wrappers/FormWrapper";
 import {BiShow} from "react-icons/bi"
+import { Link } from "react-router-dom";
 
 const SignUp: React.FC <ISignUpProps> = (props) => {
 
@@ -61,6 +62,11 @@ const SignUp: React.FC <ISignUpProps> = (props) => {
           <CTAButton style="border-green-500 hover:bg-green-500">Signup</CTAButton>
         </form>
         <p className="">Already have an account? <span className="cursor-pointer text-green-600 font-medium" onClick={() => setPage(true)}>Login</span></p>
+
+        <Link to="/" className="text-gray-400">
+          Back to home
+        </Link>
+
       </FormWrapper>
     </>
   );

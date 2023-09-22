@@ -1,10 +1,10 @@
 import React from "react";
-import NavigationButton from "../NavigationButton";
+import NavigationButton from "../Button/NavigationButton";
 
 const HeroSection: React.FC = () => {
   return (
     <>
-      <div className="w-full p-2 h-screen flex flex-col gap-6 min-[480px]:gap-10 items-center justify-center">
+      <div className="w-full p-2 h-[95vh] flex flex-col gap-6 min-[480px]:gap-10 items-center justify-center">
         <h1 className="font-lato text-3xl md:text-6xl lg:text-7xl font-extrabold tracking-wider text-[#33e872] text-center max-[322px]:text-2xl">
           Code Playground
         </h1>

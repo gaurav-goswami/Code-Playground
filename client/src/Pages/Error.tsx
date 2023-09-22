@@ -1,6 +1,6 @@
 import React from 'react'
 import MainWrapper from '../Wrappers/MainWrapper'
-import NavigationButton from '../Components/NavigationButton'
+import NavigationButton from '../Components/Button/NavigationButton'
 
 const Error : React.FC = () => {
   return (
