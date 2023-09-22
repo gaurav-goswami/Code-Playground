@@ -55,4 +55,5 @@ export interface ISignInProps {
 export interface ITabProps {
     children : React.ReactNode
     style ?: string
+    setTab : () => void
 }

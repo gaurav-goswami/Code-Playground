@@ -24,7 +24,7 @@ const Login : React.FC <ISignInProps> = (props) => {
       <FormWrapper>
         <form className="max-[420px]:w-[90%] max-[580px]:w-[75%] w-[23rem] h-max min-[2200px]:min-w-[400px] flex flex-col gap-4 px-2 py-8 rounded-md min-[1120px]:justify-center min-[1120px]:bg-transparent bg-white">
 
-          <h2 className="text-center font-lato md:text-4xl text-2xl text-gray-800 tracking-wide">Code <span className='text-blue-600'>Playground</span></h2>
+          <h2 className="text-center font-lato md:text-4xl text-2xl text-gray-800 tracking-wide font-bold">Code <span className='text-blue-600'>Playground</span></h2>
           
           <CustomInput
             name="email"

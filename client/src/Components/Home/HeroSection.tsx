@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => {
           </p>
 
           <NavigationButton
-            path="/create-playground"
+            path="/playground"
             style="px-3 py-1.5 md:px-5 md:py-2.5 bg-[#35fb7b] rounded-sm tracking-wide text-lg text-gray-900 font-inconsolata font-medium"
           >
             Create Playground
