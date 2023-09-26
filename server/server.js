@@ -14,7 +14,7 @@ const connectDatabase = async () => {
     console.log("Error while connecting to database", error.message);
     process.exit(1);
   }
-}
+};
 
 const startServer = async () => {
   try {
