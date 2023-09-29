@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loader from "./Components/Loader/Loader";
+import EditorPage from "./Pages/EditorPage";
 
 // pages import
 const Home = lazy(() => import("./Pages/Home"));
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/playground" element={<Playground />} />
+            <Route path="/playground/:roomId" element={<EditorPage />}/>
             <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<Error />} />
           </Routes>

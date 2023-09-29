@@ -10,7 +10,7 @@ import changeHandler from '../../utils/changeHandler';
 const Login : React.FC <ISignInProps> = (props) => {
 
   const {setPage} = props;
-
+  
   const [loginDetails, setLoginDetails] = useState <ISignInUserState> ({
     email : "",
     password : ""

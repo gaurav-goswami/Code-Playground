@@ -7,3 +7,9 @@
 body{
     background: #141212;
 }
+
+.CodeMirror{
+    font-size: 16px;
+    min-height: 100%;
+    line-height: 1.7;
+}

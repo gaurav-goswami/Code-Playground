@@ -23,7 +23,7 @@ const CreatePlaygroundForm: React.FC = () => {
   const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
     changeHandler(e, setRoomDetails, roomDetails);
   }
-
+  
   return (
     <>
       <form className="w-full py-4 bg-[#282a2a] px-2 flex gap-5 flex-col rounded-md">
@@ -51,7 +51,7 @@ const CreatePlaygroundForm: React.FC = () => {
 
         <NavigationButton
           style="px-3 py-1 rounded-sm tracking-wide text-lg text-gray-400 font-inconsolata font-medium w-full border border-[#35fb7b] hover:bg-[#35fb7b] hover:text-black"
-          path="/playground/uuid"
+          path={`/playground/${roomDetails.roomId}`}
         >
           Create Playground
         </NavigationButton>

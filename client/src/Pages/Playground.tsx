@@ -23,11 +23,9 @@ const Playground: React.FC = () => {
               <Tab style={`${isCreatePlayground ? "bg-[#282a2a]" : "bg-[#131515]"}`} setTab={() => setIsCreatePlayground(false)}>Join</Tab>
 
             </div>
-
             {
               isCreatePlayground === true ? <CreatePlaygroundForm /> : <JoinPlaygroundForm />
             }
-
           </div>
         </div>
 
