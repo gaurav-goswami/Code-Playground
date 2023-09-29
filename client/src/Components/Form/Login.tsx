@@ -5,6 +5,7 @@ import CTAButton from '../Button/CTAButton';
 import FormWrapper from '../../Wrappers/FormWrapper';
 import {BiShow} from "react-icons/bi"
 import { Link } from 'react-router-dom';
+import changeHandler from '../../utils/changeHandler';
 
 const Login : React.FC <ISignInProps> = (props) => {
 
@@ -16,8 +17,7 @@ const Login : React.FC <ISignInProps> = (props) => {
   });
 
   const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-    const {name , value} = e.target;
-    setLoginDetails({...loginDetails, [name] : value});
+    changeHandler(e, setLoginDetails, loginDetails);
   }
 
   return (

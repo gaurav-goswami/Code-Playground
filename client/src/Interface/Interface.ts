@@ -61,3 +61,12 @@ export interface ITabProps {
 export interface IUuidGenerate {
     () : Promise<string>
 }
+
+export interface IChangeHandler {
+    <T>(e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<T>>, state: T): void;
+}
+
+export interface ICreatePlayground {
+    roomId : string,
+    roomPassword : string
+}
