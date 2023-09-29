@@ -8,11 +8,12 @@ import "codemirror/lib/codemirror.css";
 
 const Editor: React.FC = () => {
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
+  const codeMirrorInstance = useRef<CodeMirror.Editor | null>(null);
 
   useEffect(() => {
     async function init() {
       if (editorRef.current !== null) {
-        Codemirror.fromTextArea(
+        codeMirrorInstance.current = Codemirror.fromTextArea(
           editorRef.current,
           {
             mode: {
@@ -29,6 +30,15 @@ const Editor: React.FC = () => {
     }
     init();
 
+    return () => {
+      if (codeMirrorInstance.current) {
+        const codeMirrorElement =
+          codeMirrorInstance.current.getWrapperElement();
+        if (codeMirrorElement && codeMirrorElement.parentNode) {
+          codeMirrorElement.parentNode.removeChild(codeMirrorElement);
+        }
+      }
+    };
   }, []);
 
   return (
