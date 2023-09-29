@@ -6,7 +6,7 @@ import JoinPlaygroundForm from "../Components/Playground/JoinPlaygroundForm";
 
 const Playground: React.FC = () => {
 
-  const [isCreatePlayground, setIsCreatePlayground] = useState <Boolean> (true);
+  const [isCreatePlayground, setIsCreatePlayground] = useState (true);
 
   return (
     <>

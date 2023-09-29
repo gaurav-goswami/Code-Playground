@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomInput from "../Form/CustomInput";
 import NavigationButton from "../Button/NavigationButton";
+import generateRoomId from "../../utils/uuidGenerator";
 
 const CreatePlaygroundForm: React.FC = () => {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [roomId, setRoomId] = useState <string> ('');
+
+  const generateId = async () => {
+    const id = await generateRoomId();
+    console.log("id is" , id);
+    setRoomId(id);
+  }
+
   return (
     <>
       <form className="w-full py-4 bg-[#282a2a] px-2 flex gap-5 flex-col rounded-md">
@@ -12,7 +23,7 @@ const CreatePlaygroundForm: React.FC = () => {
           autocomplete="off"
           placeholder="Create room ID"
           required={true}
-          value=""
+          value={roomId}
           onChange={() => console.log("changed")}
           style="bg-[#1c1f1f] border-none text-white py-2 rounded-md"
         />
@@ -35,7 +46,7 @@ const CreatePlaygroundForm: React.FC = () => {
           Create Playground
         </NavigationButton>
 
-        <span className="cursor-pointer text-gray-500 w-max">
+        <span className="cursor-pointer text-gray-500 w-max" onClick={generateId}>
           Generate a random room ID
         </span>
       </form>

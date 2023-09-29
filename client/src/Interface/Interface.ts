@@ -57,3 +57,7 @@ export interface ITabProps {
     style ?: string
     setTab : () => void
 }
+
+export interface IUuidGenerate {
+    () : Promise<string>
+}
