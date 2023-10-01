@@ -23,5 +23,5 @@ const playgroundSchema = new mongoose.Schema({
     },
   ],
 });
-const playground = mongoose.model("Playground", playgroundSchema);
-export default playground;
+const Playground = mongoose.model("Playground", playgroundSchema);
+export default Playground;

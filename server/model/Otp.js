@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import verificationMail from "../helper/verificationMail";
 
 const OtpSchema = new mongoose.Schema({
   otp: {
@@ -14,6 +15,11 @@ const OtpSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+OtpSchema.pre("save" , async function(next) {
+  await verificationMail(this.email , this.otp);
+  next();
+})
 
 const Otp = mongoose.model("Otp", OtpSchema);
 export default Otp;

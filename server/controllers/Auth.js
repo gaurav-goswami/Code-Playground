@@ -24,7 +24,6 @@ class AuthController {
             }
 
             await Otp.create({ email, otp });
-
             return res.status(200).json({
                 success: true,
                 message: "Otp send successfully",
@@ -113,7 +112,8 @@ class AuthController {
                 return res.status(200).json({
                     success : true,
                     message : "Logged In",
-                    token
+                    token,
+                    userId : user._id
                 })
             }
             else{
