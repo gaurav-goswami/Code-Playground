@@ -63,10 +63,21 @@ export interface IUuidGenerate {
 }
 
 export interface IChangeHandler {
-    <T>(e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<T>>, state: T): void;
+    <T>(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>, setter: React.Dispatch<React.SetStateAction<T>>, state: T): void;
 }
 
 export interface ICreatePlayground {
     roomId : string,
     roomPassword : string
+}
+
+export interface IEditorOption {
+    theme : string,
+    mode : string
+}
+
+export interface ISelect {
+    children : React.ReactNode
+    name : string,
+    change : (e : React.ChangeEvent<HTMLSelectElement>) => void
 }
