@@ -1,15 +1,16 @@
 import React from "react";
 import CTAButton from "../Button/CTAButton";
 import Member from "./Member";
+import { Link } from "react-router-dom";
 
 const CodeMembers: React.FC = () => {
   return (
     <>
       <div className="w-[220px] max-h-full md:flex hidden flex-col bg-[#1a1818] px-1 rounded-sm">
         <div className="flex w-full flex-1 flex-col overflow-y-scroll gap-5">
-          <h2 className="text-center font-inconsolata text-2xl font-bold text-[#33e872]">
+          <Link to = "/" className="text-center font-inconsolata text-2xl font-bold text-[#33e872]">
             Code Playground
-          </h2>
+          </Link>
           <div className="flex flex-wrap items-center gap-1 p-1">
             <Member username="John Doe"/>
             <Member username="Gaurav"/>
