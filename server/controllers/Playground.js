@@ -1,24 +1,20 @@
-const { Config } from "../config/config";
-const Playground from "../model/Playground";
-const User from "../model/User";
-const crypto from "crypto";
+const ErrorHandler = require("../utils/ErrorHandler");
+const { Config } = require("../config/config");
+const Playground = require("../model/Playground");
+const User = require("../model/User");
+const crypto = require("crypto");
 
 class PlaygroundController {
 
     static createPlayground = async (req, res, next) => {
         try {
             const { roomId, roomPassword, user_id, } = req.body;
-            if (!roomId || !roomPassword || !user_id) return res.status(400).json({
-                success: false,
-                message: "All fields are required"
-            });
+            if (!roomId || !roomPassword || !user_id) return next(new ErrorHandler("All fields are required", 400));
 
             // check if the user (host) exists or not;
             let host = await User.findById(user_id);
-            if (!host) return res.status(404).json({
-                success: false,
-                message: "User with this ID does not exist"
-            })
+            if (!host) return next(new ErrorHandler("User with this ID does not exist", 404));
+
             // hash the room password
             const salt = Config.SALT;
             const hashPin = crypto.createHash("sha256").update(roomPassword + salt).digest("hex");
@@ -32,10 +28,7 @@ class PlaygroundController {
             });
 
         } catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: "Internal server error"
-            })
+            return next(new ErrorHandler("Internal server error", 500));
         }
     }
 
@@ -43,30 +36,22 @@ class PlaygroundController {
         try {
 
             const { roomId, roomPassword } = req.body;
-            const {id} = req.user;
-            if (!roomId || !roomPassword) return res.status(400).json({
-                success: false,
-                message: "Playground Id and password are required"
-            });
-            // check if the room exists or not 
-            let room = await Playground.findOne({roomId});
-            if(!room) return res.status(404).json({
-                success : false,
-                message : "Playground does not exists"
-            });
+            const { id } = req.user;
+            if (!roomId || !roomPassword) return next(new ErrorHandler("Room Id and password are required", 400));
 
-            await Playground.findOneAndUpdate({roomId} , {$push : {members : id}} , {new : true});
-            console.log("user with id " , id , "has successfully joined " , roomId);
+            // check if the room exists or not 
+            let room = await Playground.findOne({ roomId });
+            if (!room) return next(new ErrorHandler("Playground does not exist", 404));
+
+            await Playground.findOneAndUpdate({ roomId }, { $push: { members: id } }, { new: true });
+            console.log("user with id ", id, "has successfully joined ", roomId);
             return res.status(200).json({
-                success : true,
-                message : "Playground joined"
+                success: true,
+                message: "Playground joined"
             })
 
         } catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: "Internal server error"
-            })
+            return next(new ErrorHandler("Internal server error", 500));
         }
     }
 
@@ -74,40 +59,33 @@ class PlaygroundController {
         try {
 
             // if host leave the playground then room will be deleted 
-            const {roomId} = req.body;
-            const {id} = req.user;
-            if(!roomId) return res.status(400).json({
-                success : false,
-                message : "Playground ID is required"
-            });
+            const { roomId } = req.body;
+            const { id } = req.user;
+            if (!roomId) return next(new ErrorHandler("Playground ID is required", 400));
 
             let playground = await Playground.findById(roomId);
-            if(!playground) return res.status(404).json({
-                success : false,
-                message : "Playground not found"
-            })
-            if(playground.host === id) {
-                await Playground.findByIdAndDelete({roomId});
+            if (!playground) return next(new ErrorHandler("Playground not found", 404));
+
+            if (playground.host === id) {
+                await Playground.findByIdAndDelete({ roomId });
                 return res.status(200).json({
-                    success : true,
-                    message : "Playground deleted successfully"
+                    success: true,
+                    message: "Playground deleted successfully"
                 })
-            }else{
-                await Playground.findOneAndUpdate({roomId} , {$pull : {members : {$eq : id}}} , {new : true});
+            } else {
+                await Playground.findOneAndUpdate({ roomId }, { $pull: { members: { $eq: id } } }, { new: true });
                 return res.status(200).json({
-                    success : true,
-                    message : "Playground left"
+                    success: true,
+                    message: "Playground left"
                 })
             }
-            
         } catch (error) {
             return res.status(500).json({
-                success : false,
-                message : "Internal server error"
+                success: false,
+                message: "Internal server error"
             })
         }
     }
-
 }
 
-module.exports= PlaygroundController;
+module.exports = PlaygroundController;

@@ -3,17 +3,14 @@ const generateOtp = require("../helper/generateOtp");
 const Otp = require("../model/Otp");
 const { checkPassword, hashPassword } = require("../helper/bcryptHelper");
 const { generateToken } = require("../helper/jwtHelper");
+const ErrorHandler = require("../utils/ErrorHandler");
 
 class AuthController {
     static sendOtp = async (req, res, next) => {
         try {
             const { email } = req.body;
             const user = await User.findOne({ email });
-            if (user)
-                return res.status(403).json({
-                    success: false,
-                    message: "User with that email already exists.",
-                });
+            if (user) return next(new ErrorHandler("User already exists", 401))
 
             const otp = generateOtp();
             // check if the otp already exists or not
@@ -30,47 +27,31 @@ class AuthController {
             });
         } catch (error) {
             console.log("Error in send otp handler");
-            return res.status(500).json({
-                success: false,
-                message: "Internal server error",
-            });
+            return next(new ErrorHandler("Internal server error", 500))
         }
     };
 
     // signup
     static signup = async (req, res, next) => {
         try {
-            const { username, email, password, otp} = req.body;
-            if (!username || !email || !password || otp)
-                return res.status(400).json({
-                    success: false,
-                    message: "All fields are required",
-                });
+            const { username, email, password, otp } = req.body;
+            if (!username || !email || !password || otp) return next(new ErrorHandler("All fields are required", 400));
+
             let user = await User.findOne({ email });
-            if (user)
-                return res.status(403).json({
-                    success: false,
-                    message: "User with that email already exists",
-                });
+            if (user) return next(new ErrorHandler("User already exists with that email", 401));
 
             // validate the otp
             const latestOtp = await Otp.find({ email })
                 .sort({ createdAt: -1 })
                 .limit(1);
-            if (latestOtp.length === 0)
-                return res.status(404).json({
-                    success: false,
-                    message: "Otp not found",
-                });
-            else if (otp !== latestOtp[0].otp)
-                return res.status(400).json({
-                    success: false,
-                    message: "OTP did not match",
-                });
+            if (latestOtp.length === 0) {
+                return next(new ErrorHandler("OTP not found", 404))
+            }
+            else if (otp !== latestOtp[0].otp) {
+                return next(new ErrorHandler("OTP did not match", 400));
+            }
 
             let hashedPassword = await hashPassword(password, res);
-            console.log("hashed password is", hashedPassword);
-
             user = await User.create({ username, email, password: hashedPassword });
 
             const token = await generateToken(user._id, user.email);
@@ -86,10 +67,7 @@ class AuthController {
             })
         } catch (error) {
             console.log(error.message);
-            return res.status(500).json({
-                success: false,
-                message: "Internal server error",
-            });
+            return next(new ErrorHandler("Internal server error", 500));
         }
     };
 
@@ -97,26 +75,20 @@ class AuthController {
         try {
 
             const { email, password } = req.body;
-            if (!email || !password) return res.status(400).json({
-                success: false,
-                message: "All fields are required"
-            })
+            if (!email || !password) return next(new ErrorHandler("All fields are required", 400));
 
             let user = await User.findOne({ email });
-            if (!user) return res.status(404).json({
-                success: false,
-                message: "No account associated with this email. Please signup"
-            });
+            if (!user) return next(new ErrorHandler("No account associated with this email. Please signup", 404));
 
             // check the password
-            let passwordMatch = checkPassword(password, user.password);
+            let passwordMatch = await checkPassword(password, user.password);
+            console.log("pass match" , passwordMatch);
             if (user && passwordMatch) {
                 const token = await generateToken(user._id, user.email);
                 res.cookie("token", token, {
                     expires: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
                     httpOnly: true
                 })
-
                 return res.status(200).json({
                     success: true,
                     message: "Logged In",
@@ -124,20 +96,12 @@ class AuthController {
                 })
             }
             else {
-                return res.status(401).json({
-                    success: false,
-                    message: "Invalid credentails"
-                })
+                return next(new ErrorHandler("Invalid credentials", 401));
             }
         } catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: "Internal server error",
-            });
+            return next(new ErrorHandler("Internal server error", 500));
         }
     }
-
-
 }
 
-module.exports= AuthController;
+module.exports = AuthController;
