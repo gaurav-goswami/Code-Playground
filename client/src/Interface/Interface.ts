@@ -81,3 +81,7 @@ export interface ISelect {
     name : string,
     change : (e : React.ChangeEvent<HTMLSelectElement>) => void
 }
+
+export interface IMember {
+    username : string
+}
