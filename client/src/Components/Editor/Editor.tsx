@@ -24,8 +24,6 @@ const Editor: React.FC = () => {
     changeHandler(e , setEditorOption , editorOption);
   }
 
-  console.log(editorOption);
-
   useEffect(() => {
     async function init() {
       if (editorRef.current !== null) {
