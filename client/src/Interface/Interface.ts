@@ -1,87 +1,129 @@
-import { IconType } from "react-icons"
+import { IconType } from "react-icons";
 
 export interface IMainWrapperProps {
-    children : React.ReactNode
+  children: React.ReactNode;
 }
 
 export interface IFormWrapper extends IMainWrapperProps {}
 
 export interface ILoginWrapper extends IMainWrapperProps {
-    page : boolean
+  page: boolean;
 }
 
 export interface INavigationButtonProps {
-    children : string
-    path : string
-    style : string
+  children: string;
+  path: string;
+  style: string;
 }
 
 export interface ICustomInputProps {
-    type : string
-    name : string
-    value : string
-    onChange : (e : React.ChangeEvent<HTMLInputElement>) => void
-    placeholder ?: string
-    required ?: boolean
-    style ?: string
-    autocomplete ?: string
-    icon ?: IconType
+  type: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  required?: boolean;
+  style?: string;
+  autocomplete?: string;
+  icon?: IconType;
 }
 
 export interface IRegisterUserState {
-    username : string,
-    email : string,
-    password : string
+  username: string;
+  email: string;
+  password: string;
 }
 
 export interface ISignInUserState {
-    email : string,
-    password : string
-}   
+  email: string;
+  password: string;
+}
 
 export interface ICTAButtonProps {
-    children : React.ReactNode
-    style ?: string
+  children: React.ReactNode;
+  style?: string;
 }
 
 export interface ISignUpProps {
-    setPage : (x : boolean) => void
+  setPage: (x: boolean) => void;
 }
 
 export interface ISignInProps {
-    setPage : (x : boolean) => void
+  setPage: (x: boolean) => void;
 }
 
 export interface ITabProps {
-    children : React.ReactNode
-    style ?: string
-    setTab : () => void
+  children: React.ReactNode;
+  style?: string;
+  setTab: () => void;
 }
 
 export interface IUuidGenerate {
-    () : Promise<string>
+  (): Promise<string>;
 }
 
 export interface IChangeHandler {
-    <T>(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>, setter: React.Dispatch<React.SetStateAction<T>>, state: T): void;
+  <T>(
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
+    setter: React.Dispatch<React.SetStateAction<T>>,
+    state: T
+  ): void;
 }
 
 export interface ICreatePlayground {
-    roomId : string,
-    roomPassword : string
+  roomId: string;
+  roomPassword: string;
 }
 
 export interface IEditorOption {
-    theme : string,
-    mode : string
+  theme: string;
+  mode: string;
 }
 
 export interface ISelect {
-    children : React.ReactNode
-    name : string,
-    change : (e : React.ChangeEvent<HTMLSelectElement>) => void
+  children: React.ReactNode;
+  name: string;
+  change: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export interface IMember {
-    username : string
+  username: string;
+}
+
+// service interfaces
+
+export interface ISendOtpRequestBody {
+  email: string;
+}
+
+export interface ISendOtpResponseBody {
+  success: boolean;
+  status?: number;
+  message: string;
+}
+
+export interface ISignUpRequestBody {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface ISignUpResponseBody {
+  success?: boolean;
+  status?: number;
+  message?: string;
+}
+
+export interface ILoginRequestBody {
+  email: string;
+  password: string;
+}
+
+export interface ILoginResponseBody {
+  success: boolean;
+  status: number;
+  message: string;
+  username?: string;
 }
