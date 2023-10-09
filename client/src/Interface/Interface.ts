@@ -32,6 +32,7 @@ export interface IRegisterUserState {
   username: string;
   email: string;
   password: string;
+  otp?: string | number;
 }
 
 export interface ISignInUserState {
@@ -126,4 +127,26 @@ export interface ILoginResponseBody {
   status: number;
   message: string;
   username?: string;
+}
+
+// api function interfaces
+
+export interface ICommonInterface {
+  setDisable: (x: boolean) => void;
+  navigate: (to: string) => void;
+}
+
+export interface ISendOtp extends ICommonInterface {
+  otpFunc: (userDetails: any) => void | any;
+  userDetails: IRegisterUserState;
+}
+
+export interface ISignupUser extends ICommonInterface {
+  signUpFunc: (userDetails: any) => void | any;
+  userDetails: IRegisterUserState;
+}
+
+export interface ILoginUser extends ICommonInterface {
+  loginFunc: (userDetails: any) => void | any;
+  userDetails: ISignInUserState;
 }
