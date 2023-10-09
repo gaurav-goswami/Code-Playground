@@ -1,7 +1,7 @@
-import bcrypt from "bcryptjs";
-import { Config } from "../config/config";
+const bcrypt = require("bcryptjs");
+const { Config } = require("../config/config");
 
-export const hashPassword = async (password, res) => {
+exports.hashPassword = async (password, res) => {
     try {
         const genSalt = await bcrypt.genSalt(Number(Config.GEN_SALT));
         const hashedPassword = await bcrypt.hash(password, genSalt);
@@ -15,10 +15,10 @@ export const hashPassword = async (password, res) => {
     }
 }
 
-export const checkPassword = async (password, hashedPassword, res) => {
+exports.checkPassword = async (password, hashedPassword, res) => {
     try {
 
-        const passwordMatch = await bcrypt.compare(password, hashPassword);
+        const passwordMatch = await bcrypt.compare(password, hashedPassword);
         return passwordMatch;
         
     } catch (error) {

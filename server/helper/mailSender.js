@@ -1,5 +1,5 @@
-import nodemailer from "nodemailer";
-import { Config } from "../config/config";
+const nodemailer = require("nodemailer");
+const { Config } = require("../config/config");
 
 const mailSender = async (email, title, body = null) => {
     try {
@@ -22,4 +22,4 @@ const mailSender = async (email, title, body = null) => {
     }
 }
 
-export default mailSender;
+module.exports= mailSender;

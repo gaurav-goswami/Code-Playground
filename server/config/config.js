@@ -1,9 +1,9 @@
-import { config } from "dotenv";
+const {config} = require("dotenv");
 config();
 
 const { PORT, DB_URI, GEN_SALT, JWT_SECRET, MAIL_HOST, MAIL_USER, MAIL_PASS, SALT, CLIENT_URL } = process.env;
 
-export const Config = {
+exports.Config = {
   PORT,
   DB_URI,
   GEN_SALT,

@@ -1,7 +1,7 @@
-import { Config } from "../config/config";
-import Playground from "../model/Playground";
-import User from "../model/User";
-import crypto from "crypto";
+const { Config } from "../config/config";
+const Playground from "../model/Playground";
+const User from "../model/User";
+const crypto from "crypto";
 
 class PlaygroundController {
 
@@ -110,4 +110,4 @@ class PlaygroundController {
 
 }
 
-export default PlaygroundController;
+module.exports= PlaygroundController;

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const playgroundSchema = new mongoose.Schema({
   roomId: {
@@ -24,4 +24,4 @@ const playgroundSchema = new mongoose.Schema({
   ],
 });
 const Playground = mongoose.model("Playground", playgroundSchema);
-export default Playground;
+module.exports= Playground;

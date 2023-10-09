@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-import { Config } from "../config/config";
+const jwt = require("jsonwebtoken");
+const { Config } = require("../config/config");
 
-export const generateToken = (userId, email) => {
+exports.generateToken = (userId, email) => {
     return new Promise((resolve, reject) => {
         const payload = {
             userId,
@@ -20,7 +20,7 @@ export const generateToken = (userId, email) => {
     })
 }
 
-export const verifyToken = (token) => {
+exports.verifyToken = (token) => {
     return new Promise ((resolve, reject) => {
         // const token = req.headers['authorization'].split(" ")[1] || req.headers['Authorization'].split(" ")[1] || req.cookies.token;
 

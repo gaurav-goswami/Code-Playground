@@ -1,4 +1,4 @@
-import mailSender from "./mailSender";
+const mailSender = require("./mailSender");
 
 const verificationMail = async (email, otp) => {
     try {
@@ -9,4 +9,4 @@ const verificationMail = async (email, otp) => {
     }
 }
 
-export default verificationMail;
+module.exports= verificationMail;

@@ -8,4 +8,4 @@ function getAllConnectedClients(io, roomId, userSocketMap) {
     });     
 }
 
-export default getAllConnectedClients;
+module.exports= getAllConnectedClients;

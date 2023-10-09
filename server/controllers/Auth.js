@@ -1,8 +1,8 @@
-import User from "../model/User";
-import generateOtp from "../helper/generateOtp";
-import Otp from "../model/Otp";
-import { checkPassword, hashPassword } from "../helper/bcryptHelper";
-import { generateToken } from "../helper/jwtHelper";
+const User = require("../model/User");
+const generateOtp = require("../helper/generateOtp");
+const Otp = require("../model/Otp");
+const { checkPassword, hashPassword } = require("../helper/bcryptHelper");
+const { generateToken } = require("../helper/jwtHelper");
 
 class AuthController {
     static sendOtp = async (req, res, next) => {
@@ -40,8 +40,8 @@ class AuthController {
     // signup
     static signup = async (req, res, next) => {
         try {
-            const { username, email, password, otp } = req.body;
-            if (!username || !email || !password || !otp)
+            const { username, email, password, otp} = req.body;
+            if (!username || !email || !password || otp)
                 return res.status(400).json({
                     success: false,
                     message: "All fields are required",
@@ -68,22 +68,24 @@ class AuthController {
                     message: "OTP did not match",
                 });
 
-            let hashedPassword = hashPassword(password, res);
+            let hashedPassword = await hashPassword(password, res);
             console.log("hashed password is", hashedPassword);
 
-            user = await User.create({ username, email, password: hashPassword });
-            
+            user = await User.create({ username, email, password: hashedPassword });
+
             const token = await generateToken(user._id, user.email);
-            res.cookies("token", token, {
+            res.cookie("token", token, {
                 expires: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
                 httpOnly: true
             })
 
             return res.status(200).json({
                 success: true,
-                message: "Signup successfully"
+                message: "Signup successfully",
+                username: user.username,
             })
         } catch (error) {
+            console.log(error.message);
             return res.status(500).json({
                 success: false,
                 message: "Internal server error",
@@ -110,7 +112,7 @@ class AuthController {
             let passwordMatch = checkPassword(password, user.password);
             if (user && passwordMatch) {
                 const token = await generateToken(user._id, user.email);
-                res.cookies("token", token, {
+                res.cookie("token", token, {
                     expires: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
                     httpOnly: true
                 })
@@ -118,8 +120,7 @@ class AuthController {
                 return res.status(200).json({
                     success: true,
                     message: "Logged In",
-                    token,
-                    userId: user._id
+                    username: user.username
                 })
             }
             else {
@@ -136,7 +137,7 @@ class AuthController {
         }
     }
 
-    
+
 }
 
-export default AuthController;
+module.exports= AuthController;

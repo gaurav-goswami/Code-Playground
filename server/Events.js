@@ -7,4 +7,4 @@ const EVENTS = {
     LEAVE : 'leave'
 }
 
-export default EVENTS;
+module.exports= EVENTS;

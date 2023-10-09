@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-import app from "./app.js";
-import { Config } from "./config/config.js";
-import http from "http";
-import socketConnection from "./socket.js";
+const mongoose = require("mongoose");
+const { Config } = require("./config/config.js");
+const http = require("http");
+const socketConnection = require("./socket.js");
+const app = require("./app.js");
 
 const connectDatabase = async () => {
   try {
@@ -28,7 +28,7 @@ const startServer = async () => {
 
     connectDatabase();
   } catch (error) {
-    console.log(`Something went wrong while starting server` , error);
+    console.log(`Something went wrong while starting server`, error);
     process.exit(1);
   }
 };

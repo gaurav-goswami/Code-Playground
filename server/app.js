@@ -1,15 +1,18 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-// import { Config as conf } from "./config/config";
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const AuthRouter = require("./routes/Auth.js");
+const {Config} = require("./config/config.js");
 
 const app = express();
 app.use(cors({
-    origin : process.env.CLIENT_URL,
-    credentials : true,
-    methods : ["GET" , "POST" , "PUT", "DELETE"]
+  origin: Config.CLIENT_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"]
 }))
+
 app.use(express.json());
 app.use(cookieParser());
+app.use("/api/v1/auth", AuthRouter);
 
-export default app;
+module.exports = app;
