@@ -56,8 +56,8 @@ const Editor: React.FC = () => {
   }, [editorOption]);
 
   return (
-    <div className="lg:w-11/12 h-screen w-screen">
-      <div className="h-[6%] w-full py-1 flex gap-4 px-5 justify-end">
+    <div className="lg:w-11/12 h-screen w-screen mx-auto flex flex-col gap-1">
+      <div className="h-max w-full py-1 flex gap-4 px-5 justify-end items-center bg-[#1a1818] rounded-sm">
 
         {/* theme select options */}
         <Select name="theme" change={handleOptionChange}>

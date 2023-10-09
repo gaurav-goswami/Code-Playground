@@ -6,7 +6,7 @@ const Select: React.FC<ISelect> = (props) => {
 
   return (
     <>
-      <select name={name} onChange={change} className="px-3 py-2 cursor-pointer bg-[#1c1f1f] text-white rounded-md">
+      <select name={name} onChange={change} className="px-3 py-2 cursor-pointer bg-[#1c1f1f] text-white rounded-md h-[40px]">
         {children}
       </select>
     </>

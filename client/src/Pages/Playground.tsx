@@ -14,7 +14,7 @@ const Playground: React.FC = () => {
         <div className="w-full h-screen flex justify-center items-center">
 
           {/* playground (join/create) container */}
-          <div className="max-[580px]:w-[90%] w-[30rem] h-max min-[2200px]:min-w-[550px] px-2.5 py-5 bg-[#1c1f1f] rounded-sm flex flex-col items-start gap-4">
+          <div className="max-[580px]:w-[90%] w-[25rem] h-max px-2.5 py-5 bg-[#1c1f1f] rounded-sm flex flex-col items-start gap-4">
 
             <div className="flex w-full gap-2 justify-between">
 
