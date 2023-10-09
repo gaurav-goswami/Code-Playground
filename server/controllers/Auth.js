@@ -71,11 +71,17 @@ class AuthController {
             let hashedPassword = hashPassword(password, res);
             console.log("hashed password is", hashedPassword);
 
-            user = await User.create({username, email, password : hashPassword});
+            user = await User.create({ username, email, password: hashPassword });
+            
+            const token = await generateToken(user._id, user.email);
+            res.cookies("token", token, {
+                expires: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
+                httpOnly: true
+            })
 
             return res.status(200).json({
-                success : true,
-                message : "Signup successfully"
+                success: true,
+                message: "Signup successfully"
             })
         } catch (error) {
             return res.status(500).json({
@@ -87,39 +93,39 @@ class AuthController {
 
     static login = async (req, res, next) => {
         try {
-            
-            const {email, password} = req.body;
-            if(!email || !password) return res.status(400).json({
-                success : false,
-                message : "All fields are required"
+
+            const { email, password } = req.body;
+            if (!email || !password) return res.status(400).json({
+                success: false,
+                message: "All fields are required"
             })
 
-            let user = await User.findOne({email});
-            if(!user) return res.status(404).json({
-                success : false,
-                message : "No account associated with this email. Please signup"
+            let user = await User.findOne({ email });
+            if (!user) return res.status(404).json({
+                success: false,
+                message: "No account associated with this email. Please signup"
             });
 
             // check the password
             let passwordMatch = checkPassword(password, user.password);
-            if(user && passwordMatch){
+            if (user && passwordMatch) {
                 const token = await generateToken(user._id, user.email);
-                res.cookies("token" , token, {
-                    expires : new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
+                res.cookies("token", token, {
+                    expires: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
                     httpOnly: true
                 })
 
                 return res.status(200).json({
-                    success : true,
-                    message : "Logged In",
+                    success: true,
+                    message: "Logged In",
                     token,
-                    userId : user._id
+                    userId: user._id
                 })
             }
-            else{
+            else {
                 return res.status(401).json({
-                    success : false,
-                    message : "Invalid credentails"
+                    success: false,
+                    message: "Invalid credentails"
                 })
             }
         } catch (error) {
@@ -129,6 +135,8 @@ class AuthController {
             });
         }
     }
+
+    
 }
 
 export default AuthController;

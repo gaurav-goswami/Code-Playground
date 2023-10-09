@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 config();
 
-const { PORT, DB_URI, GEN_SALT, JWT_SECRET, MAIL_HOST, MAIL_USER, MAIL_PASS, SALT } = process.env;
+const { PORT, DB_URI, GEN_SALT, JWT_SECRET, MAIL_HOST, MAIL_USER, MAIL_PASS, SALT, CLIENT_URL } = process.env;
 
 export const Config = {
   PORT,
@@ -11,5 +11,6 @@ export const Config = {
   MAIL_USER,
   MAIL_HOST,
   MAIL_PASS,
-  SALT
+  SALT,
+  CLIENT_URL
 };

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import app from "./app.js";
 import { Config } from "./config/config.js";
 import http from "http";
+import socketConnection from "./socket.js";
 
 const connectDatabase = async () => {
   try {
@@ -20,13 +21,14 @@ const startServer = async () => {
   try {
     const PORT = Config.PORT;
     const server = http.createServer(app);
+    socketConnection(server);
     server.listen(PORT, () => {
       console.log(`Server is running at PORT ${PORT}`);
     });
 
     connectDatabase();
   } catch (error) {
-    console.log(`Something went wrong while starting server`);
+    console.log(`Something went wrong while starting server` , error);
     process.exit(1);
   }
 };
