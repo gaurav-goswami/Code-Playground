@@ -1,5 +1,6 @@
 import { toast } from "react-hot-toast";
-import { ISendOtp, ISignupUser, ILoginUser } from "../Interface/Interface";
+import { ISendOtp, ISignupUser, ILoginUser, ICommonInterface } from "../Interface/Interface";
+import axios from "axios";
 
 export const sendOtp = async (
   otpFunc: ISendOtp["otpFunc"],
@@ -13,7 +14,7 @@ export const sendOtp = async (
     const response = await otpFunc(userDetails).unwrap();
     console.log("otp api response", response);
     setDisable(false);
-    toast.success("OTP sent successfully. Check you email Id 🤩")
+    toast.success("OTP sent successfully. Check you email Id 🤩");
     navigate("/auth/verify");
   } catch (error) {
     console.log("Error in send otp api", error);
@@ -59,7 +60,7 @@ export const loginUser = async (
   setDisable(true);
   try {
     const response = await loginFunc(userDetails).unwrap();
-    toast.success("Logged In")
+    toast.success("Logged In");
     localStorage.setItem("set_auth", JSON.stringify(response));
     setDisable(false);
     toast.dismiss(toastId);
@@ -71,4 +72,22 @@ export const loginUser = async (
   }
   toast.dismiss(toastId);
   setDisable(false);
+};
+
+export const logout = async (setDisable : ICommonInterface['setDisable'], navigate : ICommonInterface['navigate']) => {
+  const toastId = toast.loading("Loading...");
+  setDisable(true)
+  try {
+    const url = `${import.meta.env.VITE_REACT_APP_SERVER_URL}/auth/logout`;
+    const {data} = await axios.get(url, {
+      withCredentials: true,
+    });
+    localStorage.removeItem('set_auth');
+    toast.success("Logged out");
+    console.log("logout response" , data);
+    navigate("/");
+  } catch (error) {
+    console.log("Error in logout api" , error);
+  }
+  toast.dismiss(toastId)
 };

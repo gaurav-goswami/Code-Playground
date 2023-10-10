@@ -4,8 +4,6 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const LoginProtected: React.FC = () => {
   const { isAuth } = useAppSelector((state) => state.auth);
-  console.log("isAuth is", isAuth);
-
   if (isAuth) {
     return <Outlet />;
   }
