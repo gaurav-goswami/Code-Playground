@@ -32,7 +32,6 @@ export interface IRegisterUserState {
   username: string;
   email: string;
   password: string;
-  otp?: string | number;
 }
 
 export interface ISignInUserState {
@@ -43,6 +42,7 @@ export interface ISignInUserState {
 export interface ICTAButtonProps {
   children: React.ReactNode;
   style?: string;
+  disable ?: boolean
 }
 
 export interface ISignUpProps {

@@ -6,7 +6,7 @@ import LoginWrapper from '../../Wrappers/LoginWrapper';
 
 const Auth : React.FC = () => {
 
-  const [isLoginPage, setIsLoginPage] = useState<boolean>(false)
+  const [isLoginPage, setIsLoginPage] = useState<boolean>(true)
 
   return (
     <>

@@ -13,7 +13,8 @@ export const sendOtp = async (
     const response = await otpFunc(userDetails).unwrap();
     console.log("otp api response", response);
     setDisable(false);
-    navigate("/");
+    toast.success("OTP sent successfully. Check you email Id 🤩")
+    navigate("/auth/verify");
   } catch (error) {
     console.log("Error in send otp api", error);
     toast.error(
@@ -48,7 +49,7 @@ export const signUpUser = async (
   setDisable(false);
 };
 
-export const LoginUser = async (
+export const loginUser = async (
   loginFunc: ILoginUser["loginFunc"],
   userDetails: ILoginUser["userDetails"],
   setDisable: ILoginUser["setDisable"],
@@ -58,8 +59,8 @@ export const LoginUser = async (
   setDisable(true);
   try {
     const response = await loginFunc(userDetails).unwrap();
-    console.log("login api response", response);
-    localStorage.setItem("username", response.data?.username);
+    toast.success("Logged In")
+    localStorage.setItem("username", response.username);
     localStorage.setItem("isAuth", "true");
     setDisable(false);
     navigate("/");

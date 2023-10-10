@@ -3,11 +3,11 @@ import { ICTAButtonProps } from '../../Interface/Interface'
 
 const CTAButton : React.FC <ICTAButtonProps> = (props) => {
 
-  const {children, style} = props;
+  const {children, style, disable} = props;
 
   return (
     <>
-        <button className={`${style} px-2 py-1 border text-center font-inconsolata text-lg tracking-wider rounded-sm transition-all duration-150 hover:text-white`}>
+        <button disabled={disable || false} className={`${style} px-2 py-1 border text-center font-inconsolata text-lg tracking-wider rounded-sm transition-all duration-150 hover:text-white`}>
             {children}
         </button>
     </>
