@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loader from "./Components/Loader/Loader";
 import EditorPage from "./Pages/EditorPage";
 import VerifyEmail from "./Pages/Auth/VerifyEmail";
+import LoginProtected from "./Protected/LoginProtected";
+import HomeRedirect from "./Protected/HomeRedirect";
 
 // pages import
 const Home = lazy(() => import("./Pages/Home"));
@@ -17,10 +19,17 @@ const App: React.FC = () => {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/playground" element={<Playground />} />
-            <Route path="/playground/:roomId" element={<EditorPage />}/>
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/auth/verify" element={<VerifyEmail />}/>
+
+            <Route element={<LoginProtected />}>
+              <Route path="/playground" element={<Playground />} />
+              <Route path="/playground/:roomId" element={<EditorPage />} />
+            </Route>
+
+            <Route element={<HomeRedirect />}>
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/auth/verify" element={<VerifyEmail />} />
+            </Route>
+
             <Route path="*" element={<Error />} />
           </Routes>
         </Suspense>

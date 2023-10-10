@@ -8,9 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 import changeHandler from "../../utils/changeHandler";
 import { useSendOtpMutation } from "../../app/service/Authentication";
 import { sendOtp } from "../../lib/AuthApi";
-// import { useAppDispatch } from "../../app/hooks";
-// import { setUserDetails } from "../../app/feature/SignupSlice";
-// import { Dispatch } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../../app/feature/SignupSlice";
 
 const SignUp: React.FC<ISignUpProps> = (props) => {
   const { setPage } = props;
@@ -28,13 +27,13 @@ const SignUp: React.FC<ISignUpProps> = (props) => {
   const [sendOtpFn] = useSendOtpMutation();
   const [disable, setDisable] = useState(false);
   const navigate = useNavigate();
-  // const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const handleSendOtp = (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       sendOtp(sendOtpFn, registerDetails, setDisable, navigate);
-      // (dispatch as Dispatch)(setUserDetails(registerDetails));
+      dispatch(setUserDetails(registerDetails));
     } catch (error) {
       console.log(error);
       console.log("Error while signing up");

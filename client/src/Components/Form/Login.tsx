@@ -8,6 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 import changeHandler from "../../utils/changeHandler";
 import { useLoginMutation } from "../../app/service/Authentication";
 import { loginUser } from "../../lib/AuthApi";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../app/feature/AuthSlice";
 
 const Login: React.FC<ISignInProps> = (props) => {
   const { setPage } = props;
@@ -24,17 +26,19 @@ const Login: React.FC<ISignInProps> = (props) => {
   const [disable, setDisable] = useState(false);
   const [login] = useLoginMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      loginUser(login, loginDetails, setDisable, navigate);
+      const res = loginUser(login, loginDetails, setDisable, navigate);
+      dispatch(setAuth(await res));
       setLoginDetails({
         email: "",
         password: "",
       });
     } catch (error) {
-      console.log("Error while login")
+      console.log("Error while login");
     }
   };
 

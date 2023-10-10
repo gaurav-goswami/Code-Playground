@@ -32,6 +32,7 @@ export interface IRegisterUserState {
   username: string;
   email: string;
   password: string;
+  otp?: string | number;
 }
 
 export interface ISignInUserState {

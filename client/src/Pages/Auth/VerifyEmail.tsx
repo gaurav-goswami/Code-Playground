@@ -7,7 +7,7 @@ import { useAppSelector } from "../../app/hooks";
 const VerifyEmail: React.FC = () => {
   const [otp, setOtp] = useState("");
 
-  const details = useAppSelector((state) => state.SignUp.user);
+  const details = useAppSelector((state) => state.signUp.user);
   console.log(details);
 
   return (

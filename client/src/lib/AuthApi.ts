@@ -60,10 +60,11 @@ export const loginUser = async (
   try {
     const response = await loginFunc(userDetails).unwrap();
     toast.success("Logged In")
-    localStorage.setItem("username", response.username);
-    localStorage.setItem("isAuth", "true");
+    localStorage.setItem("set_auth", JSON.stringify(response));
     setDisable(false);
+    toast.dismiss(toastId);
     navigate("/");
+    return response;
   } catch (error: any) {
     console.log("Error in login api", error);
     toast.error(error.data?.message);
