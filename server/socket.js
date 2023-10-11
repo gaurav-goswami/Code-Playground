@@ -29,6 +29,17 @@ const socketConnection = (httpServer) => {
             })
         })
 
+        socket.on('disconnecting' , () => {
+            const rooms = [...socket.rooms];
+            rooms.forEach((roomId) => {
+                socket.in(roomId).emit(EVENTS.DISCONNECTED , {
+                    socketID : socket.id,
+                    username : userSocketMap[socket.id]
+                })
+            });
+            delete userSocketMap[socket.id];
+            socket.leave();
+        })
     })
 }
 

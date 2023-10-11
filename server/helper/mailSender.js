@@ -1,25 +1,30 @@
 const nodemailer = require("nodemailer");
-const { Config } = require("../config/config");
+const {Config} = require("../config/config");
 
-const mailSender = async (email, title, body = null) => {
+const mailSender = async (email, title, body) => {
     try {
-        const transporter = nodemailer.createTransport({
-            host : Config.MAIL_HOST,
-            auth : {
-                user : Config.MAIL_USER,
-                pass : Config.MAIL_PASS
+
+        let transporter = nodemailer.createTransport({
+            host: Config.MAIL_HOST,
+            auth: {
+                user: Config.MAIL_USER,
+                pass: Config.MAIL_PASS
             }
-        })
-        let mail = await transporter.sendMail({
-            from : "Code Playground",
-            to : email,
-            subject : title,
-            html : body
         });
-        return mail;
+
+        let mailContent = await transporter.sendMail({
+            from: "Code Playground",
+            to: email,
+            subject: title,
+            html: body
+        });
+
+        return mailContent;
+
     } catch (error) {
-        console.log("Error while sending mail");
+        console.log("Something went wrong while sending mail")
+        console.log(error);
     }
 }
 
-module.exports= mailSender;
+module.exports = mailSender;

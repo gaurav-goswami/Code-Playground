@@ -82,17 +82,18 @@ class AuthController {
 
             // check the password
             let passwordMatch = await checkPassword(password, user.password);
-            console.log("pass match" , passwordMatch);
             if (user && passwordMatch) {
                 const token = await generateToken(user._id, user.email);
                 res.cookie("token", token, {
                     expires: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
                     httpOnly: true
                 })
+                const isAuthToken = await generateToken(user._id);
+
                 return res.status(200).json({
-                    success: true,
-                    message: "Logged In",
-                    username: user.username
+                    username: user.username,
+                    id: user._id,
+                    token : isAuthToken
                 })
             }
             else {
@@ -100,6 +101,19 @@ class AuthController {
             }
         } catch (error) {
             return next(new ErrorHandler("Internal server error", 500));
+        }
+    }
+
+    static logout = (req, res, next) => {
+        try {
+            res.clearCookie('token');
+            return res.status(200).json({
+                success : true,
+                message : "Logged out"
+            })
+        } catch (error) {
+            console.log("Error in logout");
+            return next(new ErrorHandler("Internal server error" , 500));
         }
     }
 }
