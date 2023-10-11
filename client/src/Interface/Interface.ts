@@ -43,7 +43,8 @@ export interface ISignInUserState {
 export interface ICTAButtonProps {
   children: React.ReactNode;
   style?: string;
-  disable ?: boolean
+  disable ?: boolean;
+  fn?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface ISignUpProps {
@@ -75,8 +76,8 @@ export interface IChangeHandler {
 }
 
 export interface ICreatePlayground {
-  roomId: string;
-  roomPassword?: string;
+  roomId: string | any;
+  roomPassword : string | any;
 }
 
 export interface IEditorOption {
@@ -136,8 +137,8 @@ export interface ICreatePlaygroundResponseBody {
 }
 
 export interface ICreatePlaygroundRequestBody {
-  roomId : string,
-  roomPassword : string
+  roomId : string | any,
+  roomPassword : string | any
 }
 
 export interface IJoinPlaygroundRequestBody extends ICreatePlaygroundRequestBody {}

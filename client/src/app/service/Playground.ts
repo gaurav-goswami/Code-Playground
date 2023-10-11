@@ -8,9 +8,9 @@ export const PlaygroundApi = createApi({
     }),
     endpoints : (builder) => ({
 
-        createPlayground : builder.mutation <ICreatePlaygroundRequestBody, ICreatePlaygroundResponseBody> ({
+        createPlayground : builder.mutation <ICreatePlaygroundResponseBody, ICreatePlaygroundRequestBody> ({
             query : (playgroundDetails) => ({
-                url : "/create-playground",
+                url : "/playground/create-playground",
                 method : "POST",
                 body : JSON.stringify(playgroundDetails),
                 headers: {
@@ -20,9 +20,9 @@ export const PlaygroundApi = createApi({
             })
         }),
 
-        joinPlayground : builder.mutation <IJoinPlaygroundRequestBody, IJoinPlaygroundResponseBody> ({
+        joinPlayground : builder.mutation <IJoinPlaygroundResponseBody, IJoinPlaygroundRequestBody> ({
             query : (playgroundDetails) => ({
-                url : "/join-playground",
+                url : "/playground/join-playground",
                 method : "PUT",
                 body : JSON.stringify(playgroundDetails),
                 headers : {
@@ -34,7 +34,7 @@ export const PlaygroundApi = createApi({
         
         exitPlayground : builder.mutation <string , ILeavePlaygroundResponseBody> ({
             query : (roomId) => ({
-                url : "/leave-playground",
+                url : "/playground/leave-playground",
                 method : "DELETE",
                 body : JSON.stringify(roomId),
                 headers : {

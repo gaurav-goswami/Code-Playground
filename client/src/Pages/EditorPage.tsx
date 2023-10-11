@@ -45,7 +45,20 @@ const EditorPage: React.FC = () => {
       });
     };
 
+    // disconnected
+    if (socketRef.current !== null) {
+      socketRef.current.on(EVENTS.DISCONNECTED, ({ socketId, username }) => {
+        toast.success(`${username} left the playground`);
+      });
+    }
+
     init();
+
+    return () => {
+      socketRef.current.disconnect();
+      socketRef.current.off(EVENTS.JOINED);
+      socketRef.current.off(EVENTS.DISCONNECTED);
+    };
   }, []);
 
   return (
