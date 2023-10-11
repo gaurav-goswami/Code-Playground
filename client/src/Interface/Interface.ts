@@ -130,6 +130,22 @@ export interface ILoginResponseBody {
   username?: string;
 }
 
+export interface ICreatePlaygroundResponseBody {
+  success ?: boolean
+  message ?: string
+}
+
+export interface ICreatePlaygroundRequestBody {
+  roomId : string,
+  roomPassword : string
+}
+
+export interface IJoinPlaygroundRequestBody extends ICreatePlaygroundRequestBody {}
+
+export interface ILeavePlaygroundResponseBody extends ICreatePlaygroundResponseBody {}
+
+export interface IJoinPlaygroundResponseBody extends ICreatePlaygroundResponseBody {}
+
 // api function interfaces
 
 export interface ICommonInterface {

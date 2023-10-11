@@ -9,37 +9,44 @@ import toast from "react-hot-toast/headless";
 import handleError from "../utils/SocketError";
 
 const EditorPage: React.FC = () => {
-  const socketRef = useRef <any>(null);
-   
+  const socketRef = useRef<any>(null);
+
   // const location = useLocation();
-  const {roomId} = useParams();
+  const { roomId } = useParams();
   const navigate = useNavigate();
+  let details: string | null = localStorage.getItem("set_auth");
+  let username: string;
+  if (details !== null) {
+    username = JSON.parse(details)?.username;
+  }
 
   useEffect(() => {
-
     const init = async () => {
       socketRef.current = await initSocket();
 
-      socketRef.current.on("connect_error" , (err : any) => handleError(err, navigate))
-      socketRef.current.on("connect_failed" , (err : any) => handleError(err, navigate))
+      socketRef.current.on("connect_error", (err: any) =>
+        handleError(err, navigate)
+      );
+      socketRef.current.on("connect_failed", (err: any) =>
+        handleError(err, navigate)
+      );
 
-      socketRef.current.emit(EVENTS.JOIN , {
+      socketRef.current.emit(EVENTS.JOIN, {
         roomId,
-        username : "demo"
+        username,
       });
 
-      socketRef.current.on(EVENTS.JOINED , (data : any) => {
-        const {clients, username, socketId}  = data;
-        if(username !== "demo"){
+      socketRef.current.on(EVENTS.JOINED, (data: any) => {
+        const { clients, username, socketId } = data;
+        if (username !== "demo") {
           toast.success(`${username} has joined the playground`);
-          console.log(`${username} joined`)
+          console.log(`${username} joined`);
         }
-      })
-    }
+      });
+    };
 
     init();
-
-  } , [])
+  }, []);
 
   return (
     <>
