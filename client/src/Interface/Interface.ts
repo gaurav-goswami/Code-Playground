@@ -76,7 +76,7 @@ export interface IChangeHandler {
 
 export interface ICreatePlayground {
   roomId: string;
-  roomPassword: string;
+  roomPassword?: string;
 }
 
 export interface IEditorOption {
@@ -166,4 +166,13 @@ export interface ISignupUser extends ICommonInterface {
 export interface ILoginUser extends ICommonInterface {
   loginFunc: (userDetails: any) => void | any;
   userDetails: ISignInUserState;
+}
+
+export interface IPlaygroundCommonFnParam {
+  (
+    createPlaygroundFn: (playgroundDetails: ICreatePlayground) => Promise<unknown> | any,
+    playgroundDetails: ICreatePlayground,
+    setDisable: (x: boolean) => void,
+    navigate: (path: string) => void
+  ): void;
 }
