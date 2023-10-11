@@ -32,11 +32,11 @@ export const PlaygroundApi = createApi({
             })
         }),
         
-        exitPlayground : builder.mutation <string , ILeavePlaygroundResponseBody> ({
-            query : (roomId) => ({
+        exitPlayground : builder.mutation <ILeavePlaygroundResponseBody, string | any> ({
+            query : (playgroundId) => ({
                 url : "/playground/leave-playground",
-                method : "DELETE",
-                body : JSON.stringify(roomId),
+                method : "PUT",
+                body : JSON.stringify(playgroundId),
                 headers : {
                     "Content-Type" : "application/json" 
                 },

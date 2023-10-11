@@ -1,5 +1,5 @@
 import {toast} from "react-hot-toast";
-import { IPlaygroundCommonFnParam } from "../Interface/Interface";
+import { ILeavePlayground, IPlaygroundCommonFnParam } from "../Interface/Interface";
 
 export const createPlayground : IPlaygroundCommonFnParam = async (createPlaygroundFn , playgroundDetails, setDisable, navigate) => {
     const toastId = toast.loading("Initializing playground...");
@@ -36,12 +36,12 @@ export const joinPlayground : IPlaygroundCommonFnParam = async (joinPlaygroundFn
     setDisable(false);
 }
 
-export const leavePlayground : IPlaygroundCommonFnParam = async (leavePlaygroundFn, playgroundId, setDisable, navigate) => {
+export const leavePlayground : ILeavePlayground = async (leavePlaygroundFn, playgroundId, setDisable, navigate) => {
     const toastId = toast.loading("Leaving playground...");
     setDisable(true);
     try {
-
-        const response = await leavePlaygroundFn(playgroundId).unwrap();
+        console.log("inside playgroundAPI" , playgroundId);
+        const response = await leavePlaygroundFn({playgroundId}).unwrap();
         console.log("leave playground response" , response);
         toast.success("Playground left");
         navigate("/");

@@ -177,3 +177,12 @@ export interface IPlaygroundCommonFnParam {
     navigate: (path: string) => void
   ): void;
 }
+
+export interface ILeavePlayground {
+  (
+    leavePlaygroundFn : (playgroundId : string | any) => Promise<any | unknown> | any,
+    playgroundId : string | undefined,
+    setDisable: (x: boolean) => void,
+    navigate: (path: string) => void
+  ) : void;
+}
