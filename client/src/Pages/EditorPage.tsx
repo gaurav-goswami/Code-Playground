@@ -7,11 +7,11 @@ import EVENTS from "../utils/Events";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast/headless";
 import handleError from "../utils/SocketError";
+import isPlaygroundExists from "../utils/checkPlayground";
 
 const EditorPage: React.FC = () => {
   const socketRef = useRef<any>(null);
 
-  // const location = useLocation();
   const { roomId } = useParams();
   const navigate = useNavigate();
   let details: string | null = localStorage.getItem("set_auth");
@@ -19,6 +19,18 @@ const EditorPage: React.FC = () => {
   if (details !== null) {
     username = JSON.parse(details)?.username;
   }
+
+  // only render the editor if the roomID exists else redirect back to home;
+  useEffect(() => {
+    const check = async () => {
+      const res = await isPlaygroundExists(roomId);
+      if (res !== true) {
+        navigate("/");
+      }
+      return res;
+    };
+    check();
+  }, []);
 
   useEffect(() => {
     const init = async () => {
