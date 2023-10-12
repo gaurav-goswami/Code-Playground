@@ -15,10 +15,11 @@ import EVENTS from "../../utils/Events";
 interface IEditorProps {
   socket: any;
   roomId: string | undefined;
+  onCodeChange : any
 }
 
 const Editor: React.FC<IEditorProps> = (props) => {
-  const { socket, roomId } = props;
+  const { socket, roomId, onCodeChange } = props;
 
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
   const codeMirrorInstance = useRef<CodeMirror.Editor | null>(null);
@@ -52,6 +53,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
           // console.log("changes" , changes);
           const { origin } = changes;
           const code = instance.getValue();
+          onCodeChange(code);
           if (origin !== "setValue") {
             socket.current.emit(EVENTS.CODE_CHANGE, {
               roomId,

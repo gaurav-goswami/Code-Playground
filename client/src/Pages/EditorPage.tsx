@@ -11,6 +11,7 @@ import isPlaygroundExists from "../utils/checkPlayground";
 
 const EditorPage: React.FC = () => {
   const socketRef = useRef<any>(null);
+  const codeRef = useRef<any>(null);
 
   const { roomId } = useParams();
   const navigate = useNavigate();
@@ -51,12 +52,17 @@ const EditorPage: React.FC = () => {
       });
 
       socketRef.current.on(EVENTS.JOINED, (data: any) => {
-        const { clients, memberName} = data;
+        const { clients, memberName, socketId} = data;
         if (memberName !== username) {
           toast.success(`${memberName} has joined the playground`);
           console.log(`${memberName} joined`);
         }
         setMembers(clients);
+        // new code
+        socketRef.current.emit(EVENTS.SYNC_CODE , {
+          code : codeRef.current,
+          socketId
+        })
       });
       socketRef.current.on(EVENTS.DISCONNECTED, (data : any) => {
         const {username, socketId} = data;
@@ -84,7 +90,7 @@ const EditorPage: React.FC = () => {
       <CodeWrapper>
         <div className="flex relative max-h-screen gap-1">
           <CodeMembers clients={members} />
-          <Editor socket = {socketRef} roomId = {roomId}/>
+          <Editor socket = {socketRef} roomId = {roomId} onCodeChange = {(code : any) => {codeRef.current = code}}/>
         </div>
       </CodeWrapper>
     </>

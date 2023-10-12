@@ -3,14 +3,14 @@ import Member from "./Member";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useExitPlaygroundMutation } from "../../app/service/Playground";
 import { leavePlayground } from "../../lib/PlaygroundApi";
+import toast from "react-hot-toast";
 
 interface ICodeMembers {
-  clients : [any]
+  clients: [any];
 }
 
-const CodeMembers: React.FC <ICodeMembers> = (props) => {
-
-  const {clients} = props;
+const CodeMembers: React.FC<ICodeMembers> = (props) => {
+  const { clients } = props;
 
   const { roomId } = useParams();
   const navigate = useNavigate();
@@ -22,6 +22,17 @@ const CodeMembers: React.FC <ICodeMembers> = (props) => {
       leavePlayground(exitPlayground, roomId, setDisable, navigate);
     } catch (error) {
       console.log("Error in exit playground api");
+    }
+  }; 
+
+  const copyRoomId = async () => {
+    try {
+      if (typeof roomId === "string") {
+        await navigator.clipboard.writeText(roomId);
+        toast.success('Playground ID copied to clipboard');
+      }
+    } catch (error) {
+      toast.error("Could not copy the playground ID");
     }
   };
 
@@ -36,22 +47,25 @@ const CodeMembers: React.FC <ICodeMembers> = (props) => {
             Code Playground
           </Link>
           <div className="flex flex-wrap items-center gap-1 p-1">
-            {
-              clients.map((member) => {
-                return <Member username={member.username} key={member.socketId}/>
-              })
-            }
+            {clients.map((member) => {
+              return (
+                <Member username={member.username} key={member.socketId} />
+              );
+            })}
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full p-1 h-[10%]">
-          <button className="text-sm border-none bg-blue-600 text-white hover:bg-blue-700 py-1">
+          <button
+            className="text-sm border-none bg-blue-600 text-white hover:bg-blue-700 py-1"
+            onClick={copyRoomId}
+          >
             Copy ID
           </button>
           <button
             className="text-sm bg-red-600 border-none text-white hover:bg-red-700 py-1"
             onClick={handleLeavePlayground}
             disabled={disable}
-            >
+          >
             Leave
           </button>
         </div>
