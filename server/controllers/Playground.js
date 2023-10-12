@@ -10,9 +10,11 @@ class PlaygroundController {
         try {
             const { roomId, roomPassword } = req.body;
             if (!roomId || !roomPassword) return next(new ErrorHandler("All fields are required", 400));
-
             const user_id = req.user.userId;
 
+            // check if the room exists or not 
+            const room = await Playground.findOne({ roomId });
+            if (room) return next(new ErrorHandler(`Room with ID "${roomId}" already exists`, 400));
             // check if the user (host) exists or not;
             let host = await User.findById(user_id);
             if (!host) return next(new ErrorHandler("User with this ID does not exist", 404));
@@ -20,8 +22,7 @@ class PlaygroundController {
             // hash the room password
             const salt = Config.SALT;
             const hashPin = crypto.createHash("sha256").update(roomPassword + salt).digest("hex");
-
-            const playground = await Playground.create({ roomId, roomPassword: hashPin, host: user_id });
+            const playground = await Playground.create({ roomId, roomPassword: hashPin, host: user_id, members: [user_id] });
 
             return res.status(201).json({
                 success: true,
@@ -29,6 +30,7 @@ class PlaygroundController {
             });
 
         } catch (error) {
+            console.log(error);
             return next(new ErrorHandler("Internal server error", 500));
         }
     }
@@ -37,13 +39,23 @@ class PlaygroundController {
         try {
 
             const { roomId, roomPassword } = req.body;
-            const { id } = req.user;
+            const id = req.user.userId;
             if (!roomId || !roomPassword) return next(new ErrorHandler("Room Id and password are required", 400));
 
             // check if the room exists or not 
             let room = await Playground.findOne({ roomId });
             console.log("room is", room);
             if (!room) return next(new ErrorHandler("Playground does not exist", 404));
+
+
+            // Check if the user is already present in the room or not;
+            if (room.members.includes(id)) {
+                console.log("User with id", id, "is already a member of", roomId);
+                return res.status(200).json({
+                    success: true,
+                    message: "Reconnected to the playground"
+                });
+            }
 
             const salt = Config.SALT;
             const hashPin = crypto.createHash("sha256").update(roomPassword + salt).digest("hex");
@@ -68,20 +80,20 @@ class PlaygroundController {
         try {
 
             // if host leave the playground then room will be deleted 
-            const { roomId } = req.body;
-            const { id } = req.user;
-            if (!roomId) return next(new ErrorHandler("Playground ID is required", 400));
+            const { playgroundId } = req.body;
+            const id = req.user.userId;
+            if (!playgroundId) return next(new ErrorHandler("Playground ID is required", 400));
 
-            let playground = await Playground.findById(roomId);
+            let playground = await Playground.findOne({ roomId: playgroundId });
             if (!playground) return next(new ErrorHandler("Playground not found", 404));
-            await Playground.findOneAndUpdate({ roomId }, { $pull: { members: { $eq: id } } }, { new: true });
+            await Playground.findOneAndUpdate({ roomId: playgroundId }, { $pull: { members: { $eq: id } } }, { new: true });
             return res.status(200).json({
                 success: true,
                 message: "Playground left"
             })
 
         } catch (error) {
-            return next(new ErrorHandler("Internal server error" , 500));
+            return next(new ErrorHandler("Internal server error", 500));
         }
     }
     // if the playground exists
@@ -97,7 +109,7 @@ class PlaygroundController {
 
         } catch (error) {
             console.log("Error in playground check");
-            return next(new ErrorHandler("Internal server error" , 500));
+            return next(new ErrorHandler("Internal server error", 500));
         }
     }
 }

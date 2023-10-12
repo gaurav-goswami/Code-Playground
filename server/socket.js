@@ -23,17 +23,21 @@ const socketConnection = (httpServer) => {
             clients.forEach(({ socketId }) => {
                 io.to(socketId).emit(EVENTS.JOINED, {
                     clients,
-                    username,
+                    memberName : username,
                     socketId: socket.id
                 })
             })
         })
 
+        socket.on(EVENTS.CODE_CHANGE , ({roomId, code}) => {
+            socket.in(roomId).emit(EVENTS.CODE_CHANGE , {code})
+        }) 
+
         socket.on('disconnecting' , () => {
             const rooms = [...socket.rooms];
             rooms.forEach((roomId) => {
                 socket.in(roomId).emit(EVENTS.DISCONNECTED , {
-                    socketID : socket.id,
+                    socketId : socket.id,
                     username : userSocketMap[socket.id]
                 })
             });
