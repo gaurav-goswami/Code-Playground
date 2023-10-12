@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Editor from "../Components/Editor/Editor";
 import CodeMembers from "../Components/Member/CodeMembers";
 import CodeWrapper from "../Wrappers/CodeWrapper";
 import { initSocket } from "../utils/socket";
 import EVENTS from "../utils/Events";
 import { useNavigate, useParams } from "react-router-dom";
-import toast from "react-hot-toast/headless";
+import {toast} from "react-hot-toast";
 import handleError from "../utils/SocketError";
 import isPlaygroundExists from "../utils/checkPlayground";
 
@@ -19,6 +19,8 @@ const EditorPage: React.FC = () => {
   if (details !== null) {
     username = JSON.parse(details)?.username;
   }
+
+  const [members, setMembers] = useState<any>([]);
 
   // only render the editor if the roomID exists else redirect back to home;
   useEffect(() => {
@@ -49,20 +51,24 @@ const EditorPage: React.FC = () => {
       });
 
       socketRef.current.on(EVENTS.JOINED, (data: any) => {
-        const { clients, username, socketId } = data;
-        if (username !== "demo") {
-          toast.success(`${username} has joined the playground`);
-          console.log(`${username} joined`);
+        const { clients, memberName} = data;
+        if (memberName !== username) {
+          toast.success(`${memberName} has joined the playground`);
+          console.log(`${memberName} joined`);
         }
+        setMembers(clients);
+      });
+      socketRef.current.on(EVENTS.DISCONNECTED, (data : any) => {
+        const {username, socketId} = data;
+        console.log("disconnect event trigger")
+        toast.success(`${username} left the playground`);
+        setMembers((prev : any) => {
+          return prev.filter((member : any) => {
+            return member.socketId !== socketId
+          })
+        })
       });
     };
-
-    // disconnected
-    if (socketRef.current !== null) {
-      socketRef.current.on(EVENTS.DISCONNECTED, ({ socketId, username }) => {
-        toast.success(`${username} left the playground`);
-      });
-    }
 
     init();
 
@@ -77,7 +83,7 @@ const EditorPage: React.FC = () => {
     <>
       <CodeWrapper>
         <div className="flex relative max-h-screen gap-1">
-          <CodeMembers />
+          <CodeMembers clients={members} />
           <Editor />
         </div>
       </CodeWrapper>

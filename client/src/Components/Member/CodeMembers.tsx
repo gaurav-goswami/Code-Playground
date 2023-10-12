@@ -4,9 +4,15 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useExitPlaygroundMutation } from "../../app/service/Playground";
 import { leavePlayground } from "../../lib/PlaygroundApi";
 
-const CodeMembers: React.FC = () => {
-  const { roomId } = useParams();
+interface ICodeMembers {
+  clients : [any]
+}
 
+const CodeMembers: React.FC <ICodeMembers> = (props) => {
+
+  const {clients} = props;
+
+  const { roomId } = useParams();
   const navigate = useNavigate();
   const [disable, setDisable] = useState<boolean>(false);
   const [exitPlayground] = useExitPlaygroundMutation();
@@ -30,9 +36,11 @@ const CodeMembers: React.FC = () => {
             Code Playground
           </Link>
           <div className="flex flex-wrap items-center gap-1 p-1">
-            <Member username="John Doe" />
-            <Member username="Gaurav" />
-            <Member username="Jane Doe" />
+            {
+              clients.map((member) => {
+                return <Member username={member.username} key={member.socketId}/>
+              })
+            }
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full p-1 h-[10%]">

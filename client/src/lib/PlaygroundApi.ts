@@ -5,8 +5,7 @@ export const createPlayground : IPlaygroundCommonFnParam = async (createPlaygrou
     const toastId = toast.loading("Initializing playground...");
     setDisable(true);
     try {
-        const response = await createPlaygroundFn(playgroundDetails).unwrap();
-        console.log("create playground response" , response);
+        await createPlaygroundFn(playgroundDetails).unwrap();
         toast.success("Playground created successfully");
         navigate(`/playground/${playgroundDetails.roomId}`);
 
@@ -23,9 +22,7 @@ export const joinPlayground : IPlaygroundCommonFnParam = async (joinPlaygroundFn
     setDisable(true);
     try {
 
-        const response = await joinPlaygroundFn(playgroundDetails).unwrap();
-        console.log("join playground response" , response);
-        toast.success("Playground joined");
+        await joinPlaygroundFn(playgroundDetails).unwrap();
         navigate(`/playground/${playgroundDetails.roomId}`);
         
     } catch (error : any) {
@@ -40,9 +37,7 @@ export const leavePlayground : ILeavePlayground = async (leavePlaygroundFn, play
     const toastId = toast.loading("Leaving playground...");
     setDisable(true);
     try {
-        console.log("inside playgroundAPI" , playgroundId);
-        const response = await leavePlaygroundFn({playgroundId}).unwrap();
-        console.log("leave playground response" , response);
+         await leavePlaygroundFn({playgroundId}).unwrap();
         toast.success("Playground left");
         navigate("/");
         
