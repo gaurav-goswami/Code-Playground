@@ -4,7 +4,8 @@ interface IEvents {
     DISCONNECTED : string,
     CODE_CHANGE : string,
     SYNC_CODE : string,
-    LEAVE : string
+    CHANGE_LANGUAGE : string,
+    CHANGE_THEME : string,
 }
  
 const EVENTS : IEvents = {
@@ -13,7 +14,8 @@ const EVENTS : IEvents = {
     DISCONNECTED : 'disconnected',
     CODE_CHANGE : 'code-change',
     SYNC_CODE : 'sync-code',
-    LEAVE : 'leave'
+    CHANGE_LANGUAGE : 'change_language',
+    CHANGE_THEME : 'change_theme'
 }
 
 export default EVENTS;

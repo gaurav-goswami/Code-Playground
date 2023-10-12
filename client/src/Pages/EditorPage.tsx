@@ -58,7 +58,6 @@ const EditorPage: React.FC = () => {
           console.log(`${memberName} joined`);
         }
         setMembers(clients);
-        // new code
         socketRef.current.emit(EVENTS.SYNC_CODE , {
           code : codeRef.current,
           socketId

@@ -29,8 +29,20 @@ const Editor: React.FC<IEditorProps> = (props) => {
     mode: "javascript",
   });
 
-  const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     changeHandler(e, setEditorOption, editorOption);
+    // console.log(e.target.name); theme mode
+    if(e.target.name === 'theme'){
+      socket.current.emit(EVENTS.CHANGE_THEME , {
+        theme : e.target.value,
+        roomId
+      })
+    }else if(e.target.name === 'mode'){
+      socket.current.emit(EVENTS.CHANGE_LANGUAGE , {
+        mode : e.target.value,
+        roomId
+      })
+    }
   };
 
   useEffect(() => {
@@ -85,6 +97,31 @@ const Editor: React.FC<IEditorProps> = (props) => {
           codeMirrorInstance.current?.setValue(code);
         }
       });
+      // Handling theme change 
+
+      socket.current.on(EVENTS.CHANGE_THEME , (data : any) => {
+        const {theme} = data;
+        setEditorOption((prev) => ({
+          ...prev,
+          theme
+        }));
+        const themeDropdown = document.getElementById("themeDropdown") as HTMLSelectElement;
+        if (themeDropdown) {
+          themeDropdown.value = theme;
+        }
+      })
+
+      socket.current.on(EVENTS.CHANGE_LANGUAGE , (data : any) => {
+        const {mode} = data;
+        setEditorOption((prev) => ({
+          ...prev,
+          mode
+        }));
+        const languageDropdown = document.getElementById("languageDropdown") as HTMLSelectElement;
+        if (languageDropdown) {
+          languageDropdown.value = mode;
+        }
+      })
     }
   }, [socket.current]);
 
@@ -92,7 +129,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
     <div className="lg:w-11/12 h-screen w-screen mx-auto flex flex-col gap-1">
       <div className="h-max w-full py-1 flex gap-4 px-5 justify-end items-center bg-[#1a1818] rounded-sm">
         {/* theme select options */}
-        <Select name="theme" change={handleOptionChange}>
+        <Select name="theme" change={handleOptionChange} id="themeDropdown">
           {themeOptions.map((theme, index) => {
             return (
               <option value={theme} key={index}>
@@ -103,7 +140,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
         </Select>
 
         {/* language mode options */}
-        <Select name="mode" change={handleOptionChange}>
+        <Select name="mode" change={handleOptionChange} id="languageDropdown">
           {modeOption.map((mode, index) => {
             return (
               <option value={mode.mode} key={index}>

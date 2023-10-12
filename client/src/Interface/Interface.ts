@@ -89,6 +89,7 @@ export interface ISelect {
   children: React.ReactNode;
   name: string;
   change: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  id ?: string
 }
 
 export interface IMember {
