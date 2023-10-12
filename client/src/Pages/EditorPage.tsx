@@ -84,7 +84,7 @@ const EditorPage: React.FC = () => {
       <CodeWrapper>
         <div className="flex relative max-h-screen gap-1">
           <CodeMembers clients={members} />
-          <Editor />
+          <Editor socket = {socketRef} roomId = {roomId}/>
         </div>
       </CodeWrapper>
     </>
