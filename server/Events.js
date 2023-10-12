@@ -4,7 +4,8 @@ const EVENTS = {
     DISCONNECTED : 'disconnected',
     CODE_CHANGE : 'code-change',
     SYNC_CODE : 'sync-code',
-    LEAVE : 'leave'
+    CHANGE_LANGUAGE : 'change_language',
+    CHANGE_THEME : 'change_theme'
 }
 
 module.exports= EVENTS;
