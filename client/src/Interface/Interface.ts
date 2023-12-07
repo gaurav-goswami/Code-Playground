@@ -112,6 +112,7 @@ export interface ISignUpRequestBody {
   username: string;
   email: string;
   password: string;
+  otp : string
 }
 
 export interface ISignUpResponseBody {
@@ -162,7 +163,7 @@ export interface ISendOtp extends ICommonInterface {
 
 export interface ISignupUser extends ICommonInterface {
   signUpFunc: (userDetails: any) => void | any;
-  userDetails: IRegisterUserState;
+  userDetails: IRegisterUserState | null;
 }
 
 export interface ILoginUser extends ICommonInterface {

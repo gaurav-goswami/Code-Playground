@@ -108,7 +108,7 @@ const Login: React.FC<ISignInProps> = (props) => {
         </p>
 
         <Link to="/" className="text-gray-400">
-          Back to home
+          Back to home  
         </Link>
       </FormWrapper>
     </>

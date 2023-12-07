@@ -29,19 +29,20 @@ export const sendOtp = async (
 export const signUpUser = async (
   signUpFunc: ISignupUser["signUpFunc"],
   userDetails: ISignupUser["userDetails"],
+  otp : string,
   setDisable: ISignupUser["setDisable"],
   navigate: ISignupUser["navigate"]
 ) => {
   const toastId = toast.loading("Signing up...");
   setDisable(true);
   try {
-    const response = await signUpFunc(userDetails).unwrap();
+    const response = await signUpFunc({...userDetails, otp}).unwrap();
     console.log("signup user api response", response);
     localStorage.setItem("username", response.data?.username);
     localStorage.setItem("isAuth", "true");
     toast.success("Signup successfully");
     setDisable(false);
-    navigate("/");
+    navigate("/playground");
   } catch (error: any) {
     console.log("Error in signup api", error);
     toast.error(error.data?.message);

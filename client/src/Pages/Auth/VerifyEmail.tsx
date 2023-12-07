@@ -1,14 +1,28 @@
 import React, { useState } from "react";
 import MainWrapper from "../../Wrappers/MainWrapper";
 import OTPInput from "react-otp-input";
-import CTAButton from "../../Components/Button/CTAButton";
 import { useAppSelector } from "../../app/hooks";
+import { useSignUpMutation } from "../../app/service/Authentication";
+import { signUpUser } from "../../lib/AuthApi";
+import { useNavigate } from "react-router-dom";
 
 const VerifyEmail: React.FC = () => {
   const [otp, setOtp] = useState("");
-
+  const [disabled, setDisable] = useState<boolean>(false);
+  const navigate = useNavigate();
   const details = useAppSelector((state) => state.signUp.user);
+  const [signUpFn] = useSignUpMutation();
+
   console.log(details);
+
+  const handleSignUp = async () => {
+    try {
+      signUpUser(signUpFn, details, otp, setDisable, navigate);
+    } catch (error) {
+      console.log(error);
+      console.log("Error while signing up");
+    }
+  };
 
   return (
     <>
@@ -19,7 +33,7 @@ const VerifyEmail: React.FC = () => {
             <OTPInput
               value={otp}
               onChange={setOtp}
-              numInputs={6}
+              numInputs={4}
               renderSeparator={<span>-</span>}
               renderInput={(props) => (
                 <input
@@ -37,18 +51,16 @@ const VerifyEmail: React.FC = () => {
             />
             <div className="p-2 w-full flex gap-2">
               <p className="text-gray-500">Didn't received the otp ? </p>
-              <button
-                className="text-white cursor-pointer"
-              >
-                Resend Now
-              </button>
+              <button className="text-white cursor-pointer">Resend Now</button>
             </div>
 
-            <CTAButton
-                style="text-white bg-[#3a67da] font-medium h-10 flex justify-center items-center gap-2 px-3 py-3 rounded-md md:min-w-[8rem] max-w-full transition-all duration-100 hover:bg-[#2f66ee] border-none"
+            <button
+              className="text-white bg-[#3a67da] font-medium h-10 flex justify-center items-center gap-2 px-3 py-3 rounded-md md:min-w-[8rem] max-w-full transition-all duration-100 hover:bg-[#2f66ee] border-none"
+              disabled={disabled}
+              onClick={handleSignUp}
             >
               Create Account
-            </CTAButton>
+            </button>
           </div>
         </div>
       </MainWrapper>
