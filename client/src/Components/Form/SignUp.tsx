@@ -4,40 +4,30 @@ import CustomInput from "./CustomInput";
 import CTAButton from "../Button/CTAButton";
 import FormWrapper from "../../Wrappers/FormWrapper";
 import { BiShow } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import changeHandler from "../../utils/changeHandler";
-import { useSendOtpMutation } from "../../app/service/Authentication";
-import { sendOtp } from "../../lib/AuthApi";
-import { useDispatch } from "react-redux";
-import { setUserDetails } from "../../app/feature/SignupSlice";
+import useSendOtp from "../../utils/useSendOtp";
 
 const SignUp: React.FC<ISignUpProps> = (props) => {
   const { setPage } = props;
 
-  const [registerDetails, setRegisterDetails] = useState <IRegisterUserState>({
+  const [registerDetails, setRegisterDetails] = useState<IRegisterUserState>({
     username: "",
     email: "",
     password: "",
   });
 
+  const [disable, setDisable] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     changeHandler(e, setRegisterDetails, registerDetails);
   };
 
-  const [sendOtpFn] = useSendOtpMutation();
-  const [disable, setDisable] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const sendOtp = useSendOtp();
 
   const handleSendOtp = (e: React.FormEvent<HTMLFormElement>) => {
-    try {
-      e.preventDefault();
-      sendOtp(sendOtpFn, registerDetails, setDisable, navigate);
-      dispatch(setUserDetails(registerDetails));
-    } catch (error) {
-      console.log(error);
-      console.log("Error while signing up");
-    }
+    e.preventDefault();
+    sendOtp(setDisable, registerDetails);
   };
 
   return (

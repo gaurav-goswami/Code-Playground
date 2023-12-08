@@ -16,10 +16,10 @@ export const sendOtp = async (
     setDisable(false);
     toast.success("OTP sent successfully. Check you email Id 🤩");
     navigate("/auth/verify");
-  } catch (error) {
+  } catch (error : any) {
     console.log("Error in send otp api", error);
     toast.error(
-      "Something went wrong while sending otp. Please try again later"
+      error?.data?.message
     );
   }
   toast.dismiss(toastId);
@@ -35,6 +35,9 @@ export const signUpUser = async (
 ) => {
   const toastId = toast.loading("Signing up...");
   setDisable(true);
+
+  console.log("user details" , userDetails);
+
   try {
     const response = await signUpFunc({...userDetails, otp}).unwrap();
     console.log("signup user api response", response);
@@ -46,6 +49,9 @@ export const signUpUser = async (
   } catch (error: any) {
     console.log("Error in signup api", error);
     toast.error(error.data?.message);
+    if(error.status === 422) {
+      navigate("/auth");
+    }
   }
   toast.dismiss(toastId);
   setDisable(false);

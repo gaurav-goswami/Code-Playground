@@ -5,6 +5,8 @@ import { useAppSelector } from "../../app/hooks";
 import { useSignUpMutation } from "../../app/service/Authentication";
 import { signUpUser } from "../../lib/AuthApi";
 import { useNavigate } from "react-router-dom";
+import useSendOtp from "../../utils/useSendOtp";
+import toast from "react-hot-toast";
 
 const VerifyEmail: React.FC = () => {
   const [otp, setOtp] = useState("");
@@ -23,6 +25,17 @@ const VerifyEmail: React.FC = () => {
       console.log("Error while signing up");
     }
   };
+
+  const sendOtp = useSendOtp();
+
+  const handleResendOtp = () => {
+    if(!details || details === null){
+      toast.error("Please fill you details again");
+      navigate("/auth");
+      return;
+    }
+    sendOtp(setDisable, details);
+  }
 
   return (
     <>
@@ -51,7 +64,7 @@ const VerifyEmail: React.FC = () => {
             />
             <div className="p-2 w-full flex gap-2">
               <p className="text-gray-500">Didn't received the otp ? </p>
-              <button className="text-white cursor-pointer">Resend Now</button>
+              <button className="text-white cursor-pointer" onClick={handleResendOtp} disabled={disabled}>Resend Now</button>
             </div>
 
             <button
