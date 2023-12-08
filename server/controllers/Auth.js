@@ -48,7 +48,9 @@ class AuthController {
         try {
             const { username, email, password, otp } = req.body;
 
-            if (!username || !email || !password || !otp) return next(new ErrorHandler("All fields are required", 400));
+            if (!username || !email || !password) return next(new ErrorHandler("All fields are required", 422));
+
+            if(!otp) return next(new ErrorHandler("Please provide otp", 400));
 
             let user = await User.findOne({ email });
             if (user) return next(new ErrorHandler("User already exists with that email", 401));
