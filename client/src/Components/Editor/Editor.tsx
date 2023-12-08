@@ -15,7 +15,7 @@ import EVENTS from "../../utils/Events";
 interface IEditorProps {
   socket: any;
   roomId: string | undefined;
-  onCodeChange : any
+  onCodeChange: any;
 }
 
 const Editor: React.FC<IEditorProps> = (props) => {
@@ -29,19 +29,21 @@ const Editor: React.FC<IEditorProps> = (props) => {
     mode: "javascript",
   });
 
-const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const [editorCode, setEditorCode] = useState<string>("");
+
+  const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     changeHandler(e, setEditorOption, editorOption);
     // console.log(e.target.name); theme mode
-    if(e.target.name === 'theme'){
-      socket.current.emit(EVENTS.CHANGE_THEME , {
-        theme : e.target.value,
-        roomId
-      })
-    }else if(e.target.name === 'mode'){
-      socket.current.emit(EVENTS.CHANGE_LANGUAGE , {
-        mode : e.target.value,
-        roomId
-      })
+    if (e.target.name === "theme") {
+      socket.current.emit(EVENTS.CHANGE_THEME, {
+        theme: e.target.value,
+        roomId,
+      });
+    } else if (e.target.name === "mode") {
+      socket.current.emit(EVENTS.CHANGE_LANGUAGE, {
+        mode: e.target.value,
+        roomId,
+      });
     }
   };
 
@@ -65,6 +67,7 @@ const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           // console.log("changes" , changes);
           const { origin } = changes;
           const code = instance.getValue();
+          setEditorCode(code);
           onCodeChange(code);
           if (origin !== "setValue") {
             socket.current.emit(EVENTS.CODE_CHANGE, {
@@ -72,8 +75,8 @@ const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               code,
             });
           }
-          console.log("code is", code);
         });
+        codeMirrorInstance.current.setValue(editorCode);
       }
     }
     init();
@@ -97,31 +100,35 @@ const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           codeMirrorInstance.current?.setValue(code);
         }
       });
-      // Handling theme change 
+      // Handling theme change
 
-      socket.current.on(EVENTS.CHANGE_THEME , (data : any) => {
-        const {theme} = data;
+      socket.current.on(EVENTS.CHANGE_THEME, (data: any) => {
+        const { theme } = data;
         setEditorOption((prev) => ({
           ...prev,
-          theme
+          theme,
         }));
-        const themeDropdown = document.getElementById("themeDropdown") as HTMLSelectElement;
+        const themeDropdown = document.getElementById(
+          "themeDropdown"
+        ) as HTMLSelectElement;
         if (themeDropdown) {
           themeDropdown.value = theme;
         }
-      })
+      });
 
-      socket.current.on(EVENTS.CHANGE_LANGUAGE , (data : any) => {
-        const {mode} = data;
+      socket.current.on(EVENTS.CHANGE_LANGUAGE, (data: any) => {
+        const { mode } = data;
         setEditorOption((prev) => ({
           ...prev,
-          mode
+          mode,
         }));
-        const languageDropdown = document.getElementById("languageDropdown") as HTMLSelectElement;
+        const languageDropdown = document.getElementById(
+          "languageDropdown"
+        ) as HTMLSelectElement;
         if (languageDropdown) {
           languageDropdown.value = mode;
         }
-      })
+      });
     }
   }, [socket.current]);
 

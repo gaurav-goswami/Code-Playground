@@ -15,8 +15,6 @@ const VerifyEmail: React.FC = () => {
   const details = useAppSelector((state) => state.signUp.user);
   const [signUpFn] = useSignUpMutation();
 
-  console.log(details);
-
   const handleSignUp = async () => {
     try {
       signUpUser(signUpFn, details, otp, setDisable, navigate);

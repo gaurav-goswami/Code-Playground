@@ -22,7 +22,7 @@ const EditorPage: React.FC = () => {
   }
 
   const [members, setMembers] = useState<any>([]);
-
+  
   // only render the editor if the roomID exists else redirect back to home;
   useEffect(() => {
     const check = async () => {
