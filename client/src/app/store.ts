@@ -3,13 +3,15 @@ import { AuthApi } from "./service/Authentication";
 import { PlaygroundApi } from "./service/Playground";
 import SignupSlice from "./feature/SignupSlice";
 import AuthSlice from "./feature/AuthSlice";
+import ShowSlice from "./feature/ShowSlice";
 
 const store = configureStore({
     reducer : {
         [AuthApi.reducerPath] : AuthApi.reducer,
         [PlaygroundApi.reducerPath] : PlaygroundApi.reducer,
         signUp : SignupSlice,
-        auth : AuthSlice
+        auth : AuthSlice,
+        slide : ShowSlice
     },
 
     middleware : (getDefaultMiddleware) => getDefaultMiddleware().concat([AuthApi.middleware, PlaygroundApi.middleware])

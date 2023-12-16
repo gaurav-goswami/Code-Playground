@@ -46,11 +46,11 @@ const Login: React.FC<ISignInProps> = (props) => {
     <>
       <FormWrapper>
         <form
-          className="max-[420px]:w-[90%] max-[580px]:w-[75%] w-[23rem] h-max min-[2200px]:min-w-[400px] flex flex-col gap-4 px-2 py-8 rounded-md min-[1120px]:justify-center min-[1120px]:bg-transparent bg-white"
+          className=" max-[580px]:w-[80%] w-[23rem] h-max min-[2200px]:min-w-[400px] flex flex-col gap-4 px-2 py-8 rounded-md min-[1120px]:justify-center min-[1120px]:bg-transparent bg-white"
           onSubmit={handleLogin}
         >
           <p className="text-gray-500">Test Accounts</p>
-          <div className="flex gap-6">
+          <div className="flex gap-3 flex-col md:flex-row">
             <p>
               Email :- <span className="text-green-500">johndoe@gmail.com</span>
             </p>
@@ -58,7 +58,8 @@ const Login: React.FC<ISignInProps> = (props) => {
               Pass :- <span className="text-green-500">johndoe</span>
             </p>
           </div>
-          <div className="flex gap-6">
+          <hr />  
+          <div className="flex gap-3 flex-col md:flex-row">
             <p>
               Email :- <span className="text-green-500">janedoe@gmail.com</span>
             </p>

@@ -11,6 +11,11 @@ import { IEditorOption } from "../../Interface/Interface";
 import changeHandler from "../../utils/changeHandler";
 import Select from "../Select/Select";
 import EVENTS from "../../utils/Events";
+import { RiMenu4Fill } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { setOpen } from "../../app/feature/ShowSlice";
+import { useAppSelector } from "../../app/hooks";
+import { MdOutlineCancel } from "react-icons/md";
 
 interface IEditorProps {
   socket: any;
@@ -132,30 +137,56 @@ const Editor: React.FC<IEditorProps> = (props) => {
     }
   }, [socket.current]);
 
+  const dispatch = useDispatch();
+
+  const { open } = useAppSelector((state) => state.slide);
+
+  const handleShow = (x: boolean) => {
+    dispatch(setOpen(x));
+  };
+
   return (
     <div className="lg:w-11/12 h-screen w-screen mx-auto flex flex-col gap-1">
       <div className="h-max w-full py-1 flex gap-4 px-5 justify-end items-center bg-[#1a1818] rounded-sm">
-        {/* theme select options */}
-        <Select name="theme" change={handleOptionChange} id="themeDropdown">
-          {themeOptions.map((theme, index) => {
-            return (
-              <option value={theme} key={index}>
-                {theme}
-              </option>
-            );
-          })}
-        </Select>
+        {/* hamburger menu here */}
 
-        {/* language mode options */}
-        <Select name="mode" change={handleOptionChange} id="languageDropdown">
-          {modeOption.map((mode, index) => {
-            return (
-              <option value={mode.mode} key={index}>
-                {mode.name}
-              </option>
-            );
-          })}
-        </Select>
+        <div className="absolute md:hidden p-2 left-5">
+          {open ? (
+            <MdOutlineCancel
+              className="text-white cursor-pointer text-xl md:hidden z-50 absolute -top-1 -left-1"
+              onClick={() => handleShow(false)}
+            />
+          ) : (
+            <RiMenu4Fill
+              className="text-white cursor-pointer text-xl md:hidden z-50 absolute -top-1 -left-1"
+              onClick={() => handleShow(true)}
+            />
+          )}
+        </div>
+
+        {/* theme select options */}
+        <div className="space-x-4">
+          <Select name="theme" change={handleOptionChange} id="themeDropdown">
+            {themeOptions.map((theme, index) => {
+              return (
+                <option value={theme} key={index}>
+                  {theme}
+                </option>
+              );
+            })}
+          </Select>
+
+          {/* language mode options */}
+          <Select name="mode" change={handleOptionChange} id="languageDropdown">
+            {modeOption.map((mode, index) => {
+              return (
+                <option value={mode.mode} key={index}>
+                  {mode.name}
+                </option>
+              );
+            })}
+          </Select>
+        </div>
       </div>
       <textarea
         className="max-w-[100%] p-1"

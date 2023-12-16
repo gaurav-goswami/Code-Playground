@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useExitPlaygroundMutation } from "../../app/service/Playground";
 import { leavePlayground } from "../../lib/PlaygroundApi";
 import toast from "react-hot-toast";
+import { useAppSelector } from "../../app/hooks";
 
 interface ICodeMembers {
   clients: [any];
@@ -36,13 +37,15 @@ const CodeMembers: React.FC<ICodeMembers> = (props) => {
     }
   };
 
+  const {open} = useAppSelector((state) => state.slide);
+
   return (
     <>
-      <div className="w-[220px] max-h-full md:flex hidden flex-col bg-[#1a1818] px-1 rounded-sm">
+      <div className={`w-[220px] max-h-full md:flex flex-col bg-[#1a1818] px-1 rounded-sm ${open ? "flex absolute top-0 bottom-0 left-0 z-10" : "hidden"}`}>
         <div className="flex w-full flex-1 flex-col overflow-y-scroll gap-5">
           <Link
             to="/"
-            className="text-center font-inconsolata text-2xl font-bold text-[#33e872]"
+            className="text-center font-inconsolata text-2xl font-bold text-[#33e872] invisible md:visible"
           >
             Code Playground
           </Link>
