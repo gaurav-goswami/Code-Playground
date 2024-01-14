@@ -5,7 +5,7 @@ const MainWrapper: React.FC<IMainWrapperProps> = (props) => {
   const { children } = props;
 
   return (
-    <div className="lg:w-11/12 min-h-screen max-h-max mx-auto max-w-[1800px]">
+    <div className="lg:w-11/12 min-h-screen max-h-max mx-auto">
       {children}
     </div>
   );
