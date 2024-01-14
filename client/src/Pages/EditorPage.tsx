@@ -87,7 +87,7 @@ const EditorPage: React.FC = () => {
   return (
     <>
       <CodeWrapper>
-        <div className="flex relative max-h-screen gap-1">
+        <div className="flex relative max-h-screen">
           <CodeMembers clients={members} />
           <Editor socket = {socketRef} roomId = {roomId} onCodeChange = {(code : any) => {codeRef.current = code}}/>
         </div>

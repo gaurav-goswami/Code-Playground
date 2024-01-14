@@ -24,24 +24,28 @@ const CodeMembers: React.FC<ICodeMembers> = (props) => {
     } catch (error) {
       console.log("Error in exit playground api");
     }
-  }; 
+  };
 
   const copyRoomId = async () => {
     try {
       if (typeof roomId === "string") {
         await navigator.clipboard.writeText(roomId);
-        toast.success('Playground ID copied to clipboard');
+        toast.success("Playground ID copied to clipboard");
       }
     } catch (error) {
       toast.error("Could not copy the playground ID");
     }
   };
 
-  const {open} = useAppSelector((state) => state.slide);
+  const { open } = useAppSelector((state) => state.slide);
 
   return (
     <>
-      <div className={`w-[220px] max-h-full md:flex flex-col bg-[#1a1818] px-1 rounded-sm ${open ? "flex absolute top-0 bottom-0 left-0 z-10" : "hidden"}`}>
+      <div
+        className={`w-[220px] max-h-full md:flex flex-col bg-[#1a1818] px-1 rounded-sm ${
+          open ? "flex absolute top-0 bottom-0 left-0 z-10" : "hidden"
+        }`}
+      >
         <div className="flex w-full flex-1 flex-col overflow-y-scroll gap-5">
           <Link
             to="/"
@@ -57,7 +61,10 @@ const CodeMembers: React.FC<ICodeMembers> = (props) => {
             })}
           </div>
         </div>
-        <div className="flex flex-col gap-2 w-full p-1 h-[10%]">
+        <div className="flex flex-col gap-2 w-full p-1">
+          <button className="text-sm border-none bg-green-600 text-white hover:bg-green-700 py-1">
+            Run Code
+          </button>
           <button
             className="text-sm border-none bg-blue-600 text-white hover:bg-blue-700 py-1"
             onClick={copyRoomId}
