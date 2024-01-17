@@ -45,7 +45,7 @@ Follow these instructions to set up the Code Playground on your local machine.
     For the backend, copy .env.example in the server folder to .env and fill in the required values.
     For the frontend, set the backend server URLs in the necessary files.
 
-3. Contributing
+### Contributing
 
 You're most welcome for the contributions to the project! Follow these steps:
 
@@ -55,7 +55,7 @@ You're most welcome for the contributions to the project! Follow these steps:
     Push to the branch: git push origin feature-name.
     Submit a pull request.
 
-4. Here a little video demo
+### Video demo
    
 https://github.com/gaurav-goswami/Code-Playground/assets/122979352/5a7f842a-ab1b-4ddc-b3d8-75507b7100aa
 
