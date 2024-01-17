@@ -85,7 +85,7 @@ export const logout = async (setDisable : ICommonInterface['setDisable'], naviga
   const toastId = toast.loading("Loading...");
   setDisable(true)
   try {
-    const url = `${import.meta.env.VITE_REACT_APP_SERVER_URL}auth/logout`;
+    const url = `${import.meta.env.VITE_REACT_APP_SERVER_URL}/auth/logout`;
     const {data} = await axios.get(url, {
       withCredentials: true,
     });
