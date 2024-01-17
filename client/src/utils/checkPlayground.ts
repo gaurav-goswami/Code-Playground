@@ -5,7 +5,7 @@ const isPlaygroundExists = async (playgroundId : string | undefined) => {
     // const toastId = toast.loading("Loading...");
     try {
         const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
-        await axios.get(`${url}playground/check-playground/${playgroundId}` , {
+        await axios.get(`${url}/playground/check-playground/${playgroundId}` , {
             withCredentials : true,
             headers : {
                 "Content-Type" : "application/json"
