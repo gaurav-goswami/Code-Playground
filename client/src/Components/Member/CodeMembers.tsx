@@ -62,7 +62,7 @@ const CodeMembers: React.FC<ICodeMembers> = (props) => {
           </div>
         </div>
         <div className="flex flex-col gap-2 w-full p-1">
-          <button className="text-sm border-none bg-green-600 text-white hover:bg-green-700 py-1">
+          <button className="text-sm border-none bg-green-600 text-white hover:bg-green-700 py-1" onClick={() => toast.success('This feature will be adding soon')}>
             Run Code
           </button>
           <button
