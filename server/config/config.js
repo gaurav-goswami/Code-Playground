@@ -1,7 +1,7 @@
 const {config} = require("dotenv");
 config();
 
-const { PORT, DB_URI, GEN_SALT, JWT_SECRET, MAIL_HOST, MAIL_USER, MAIL_PASS, SALT, CLIENT_URL } = process.env;
+const { PORT, DB_URI, GEN_SALT, JWT_SECRET, MAIL_HOST, MAIL_USER, MAIL_PASS, SALT, CLIENT_URL, DOMAIN_URL } = process.env;
 
 exports.Config = {
   PORT,
@@ -12,5 +12,6 @@ exports.Config = {
   MAIL_HOST,
   MAIL_PASS,
   SALT,
-  CLIENT_URL
+  CLIENT_URL,
+  DOMAIN_URL
 };

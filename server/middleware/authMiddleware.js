@@ -5,6 +5,7 @@ const isAuthenticated = async (req, res, next) => {
     try {
 
         const token = req.cookies.token || req.headers['authorization'].split(' ')[1] || req.headers['Authorization'].split(' ')[1];
+        console.log('token', token);
 
         if (!token) return next(new ErrorHandler("Auth token not found. Login again", 404));
 
