@@ -4,6 +4,7 @@ const OTP = require('../model/Otp');
 const { checkPassword, hashPassword } = require("../helper/bcryptHelper");
 const { generateToken } = require("../helper/jwtHelper");
 const ErrorHandler = require("../utils/ErrorHandler");
+const { Config } = require("../config/config");
 
 class AuthController {
     static sendOtp = async (req, res, next) => {
@@ -102,7 +103,10 @@ class AuthController {
             if (user && passwordMatch) {
                 const token = await generateToken(user._id, user.email);
                 res.cookie("token", token, {
+                    domain: Config.CLIENT_URL,
                     expires: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
+                    sameSite: 'none',
+                    secure: true,
                     httpOnly: true
                 })
                 const isAuthToken = await generateToken(user._id);
