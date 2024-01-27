@@ -104,7 +104,7 @@ class AuthController {
                 const token = await generateToken(user._id, user.email);
                 res.cookie("token", token, {
                     domain: Config.DOMAIN_URL,
-                    sameSite: 'lax',
+                    sameSite: 'none',
                     expires: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
                     httpOnly: true,
                     secure: true
