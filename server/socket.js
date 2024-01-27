@@ -23,39 +23,39 @@ const socketConnection = (httpServer) => {
             clients.forEach(({ socketId }) => {
                 io.to(socketId).emit(EVENTS.JOINED, {
                     clients,
-                    memberName : username,
+                    memberName: username,
                     socketId: socket.id
                 })
             })
         })
 
-        socket.on(EVENTS.CODE_CHANGE , ({roomId, code}) => {
-            socket.in(roomId).emit(EVENTS.CODE_CHANGE , {code})
-        }) 
-        socket.on(EVENTS.SYNC_CODE , ({socketId, code}) => {
-            console.log("inside sync code in server" , code , socketId);
-            io.to(socketId).emit(EVENTS.CODE_CHANGE , {code})
-        }) 
+        socket.on(EVENTS.CODE_CHANGE, ({ roomId, code }) => {
+            socket.in(roomId).emit(EVENTS.CODE_CHANGE, { code })
+        })
+        socket.on(EVENTS.SYNC_CODE, ({ socketId, code }) => {
+            console.log("inside sync code in server", code, socketId);
+            io.to(socketId).emit(EVENTS.CODE_CHANGE, { code })
+        })
 
-        socket.on(EVENTS.CHANGE_THEME , ({theme, roomId}) => {
-            console.log('in change theme' , theme);
+        socket.on(EVENTS.CHANGE_THEME, ({ theme, roomId }) => {
+            console.log('in change theme', theme);
             // socket.broadcast.emit(EVENTS.CHANGE_THEME , {theme});
-            io.to(roomId).emit(EVENTS.CHANGE_THEME , {theme});
+            io.to(roomId).emit(EVENTS.CHANGE_THEME, { theme });
         })
 
-        socket.on(EVENTS.CHANGE_LANGUAGE , ({mode , roomId}) => {
-            console.log('in change language' , mode);
+        socket.on(EVENTS.CHANGE_LANGUAGE, ({ mode, roomId }) => {
+            console.log('in change language', mode);
             // socket.broadcast.emit(EVENTS.CHANGE_LANGUAGE , {mode});
-            io.to(roomId).emit(EVENTS.CHANGE_LANGUAGE , {mode});
+            io.to(roomId).emit(EVENTS.CHANGE_LANGUAGE, { mode });
         })
 
-        socket.on('disconnecting' , () => {
+        socket.on('disconnecting', () => {
             const rooms = [...socket.rooms];
             console.log("disconnected");
             rooms.forEach((roomId) => {
-                socket.in(roomId).emit(EVENTS.DISCONNECTED , {
-                    socketId : socket.id,
-                    username : userSocketMap[socket.id]
+                socket.in(roomId).emit(EVENTS.DISCONNECTED, {
+                    socketId: socket.id,
+                    username: userSocketMap[socket.id]
                 })
             });
             delete userSocketMap[socket.id];
