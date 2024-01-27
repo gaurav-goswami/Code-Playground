@@ -23,6 +23,7 @@ exports.generateToken = (userId, email) => {
 exports.verifyToken = (token) => {
     return new Promise ((resolve, reject) => {
         // const token = req.headers['authorization'].split(" ")[1] || req.headers['Authorization'].split(" ")[1] || req.cookies.token;
+        console.log('here', token);
 
         jwt.verify(token , Config.JWT_SECRET , (error, payload) => {
             if(error) return reject("Error while verifying token");

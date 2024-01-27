@@ -103,11 +103,11 @@ class AuthController {
             if (user && passwordMatch) {
                 const token = await generateToken(user._id, user.email);
                 res.cookie("token", token, {
-                    domain: Config.CLIENT_URL,
+                    domain: Config.DOMAIN_URL,
+                    sameSite: 'lax',
                     expires: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
-                    sameSite: 'none',
-                    secure: true,
-                    httpOnly: true
+                    httpOnly: true,
+                    secure: true
                 })
                 const isAuthToken = await generateToken(user._id);
 
